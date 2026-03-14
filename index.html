@@ -1,298 +1,658 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>It's time for the draw</title>
-    <style>
-        :root {
-            --primary: #6366f1;
-            --bg: #0f172a;
-            --text: #f8fafc;
-            --card-bg: #1e293b;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .container {
-            background-color: var(--card-bg);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-        }
-        .hidden { display: none !important; }
-        input, button {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border-radius: 6px;
-            border: 1px solid #334155;
-            box-sizing: border-box;
-            background: #0f172a;
-            color: white;
-        }
-        button {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-        button:hover { background-color: #4f46e5; }
-        .winner-card {
-            background: #22c55e;
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 6px;
-            font-weight: bold;
-        }
-        h1 { margin-bottom: 20px; font-size: 24px; }
-        #linkContainer { background: #334155; padding: 10px; border-radius: 6px; word-break: break-all; margin-top: 10px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Çekiliş Vakti 🎲</title>
+<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Cabinet+Grotesk:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --r:#ff3d5a;--o:#ff8c00;--p:#b06eff;--teal:#00d4aa;
+  --dark:#080810;--surf:#0f0f1a;--card:#141420;--card2:#1a1a2e;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);
+  --text:#eeeeff;--muted:#666680;--green:#00e676;
+  --grad:linear-gradient(135deg,var(--r),var(--o));
+  --grad2:linear-gradient(135deg,var(--p),#5e60ce);
+  --shadow3d:0 24px 48px rgba(0,0,0,0.6),0 8px 16px rgba(0,0,0,0.4);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Cabinet Grotesk',sans-serif;background:var(--dark);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+.scene-bg{position:fixed;inset:0;z-index:0;overflow:hidden;perspective:800px}
+.grid-floor{
+  position:absolute;width:200%;height:200%;bottom:-50%;left:-50%;
+  background:linear-gradient(rgba(255,61,90,0.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,61,90,0.07) 1px,transparent 1px);
+  background-size:60px 60px;
+  transform:rotateX(70deg) translateZ(-100px);transform-origin:bottom center;
+  animation:gridScroll 8s linear infinite;
+}
+@keyframes gridScroll{from{background-position:0 0}to{background-position:0 60px}}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.18;animation:orbFloat 10s ease-in-out infinite}
+.orb1{width:500px;height:500px;background:var(--r);top:-150px;left:-100px}
+.orb2{width:400px;height:400px;background:var(--p);bottom:-100px;right:-100px;animation-delay:-5s}
+.orb3{width:250px;height:250px;background:var(--teal);top:40%;left:40%;animation-delay:-3s}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,-30px) scale(1.08)}}
+
+.topbar{
+  position:sticky;top:0;z-index:200;height:64px;padding:0 24px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(8,8,16,0.85);backdrop-filter:blur(24px) saturate(1.5);
+  border-bottom:1px solid var(--border);
+}
+.logo{
+  font-family:'Clash Display',sans-serif;font-weight:700;font-size:22px;
+  display:flex;align-items:center;gap:8px;letter-spacing:-0.02em;
+  background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.topbar-right{display:flex;gap:10px;align-items:center}
+.tb-avatar{width:36px;height:36px;border-radius:10px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;font-family:'Clash Display',sans-serif;box-shadow:0 4px 12px rgba(255,61,90,0.4)}
+
+.app{max-width:1180px;margin:0 auto;padding:32px 20px;position:relative;z-index:1}
+
+/* 3D CARD */
+.card3d{
+  background:var(--card);border:1px solid var(--border);border-radius:20px;position:relative;
+  transition:transform 0.15s ease,box-shadow 0.15s ease,border-color 0.2s;
+  box-shadow:var(--shadow3d),inset 0 1px 0 rgba(255,255,255,0.05);
+  transform-style:preserve-3d;
+  will-change:transform;
+}
+.card3d::before{content:'';position:absolute;inset:0;border-radius:20px;background:linear-gradient(135deg,rgba(255,255,255,0.04) 0%,transparent 60%);pointer-events:none;z-index:1}
+
+.sec-title{font-family:'Clash Display',sans-serif;font-size:28px;font-weight:700;margin-bottom:6px;letter-spacing:-0.03em}
+.sec-sub{font-size:14px;color:var(--muted);margin-bottom:24px}
+
+.dash-grid{display:grid;grid-template-columns:320px 1fr;gap:28px}
+@media(max-width:900px){.dash-grid{grid-template-columns:1fr}}
+
+.create-panel{padding:28px;background:linear-gradient(160deg,#12121f,#0d0d18)}
+.panel-header{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.panel-icon{width:44px;height:44px;border-radius:12px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 8px 20px rgba(255,61,90,0.35);flex-shrink:0}
+.panel-title{font-family:'Clash Display',sans-serif;font-size:18px;font-weight:700;letter-spacing:-0.02em}
+.panel-sub{font-size:12px;color:var(--muted)}
+
+.inp-wrap{margin-bottom:14px}
+.inp-label{font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:block}
+.inp{
+  width:100%;background:rgba(255,255,255,0.03);border:1px solid var(--border);
+  border-radius:12px;padding:13px 16px;color:var(--text);
+  font-family:'Cabinet Grotesk',sans-serif;font-size:14px;outline:none;
+  transition:border-color 0.2s,background 0.2s,box-shadow 0.2s;
+}
+.inp:focus{border-color:var(--r);background:rgba(255,61,90,0.04);box-shadow:0 0 0 3px rgba(255,61,90,0.1)}
+.inp::placeholder{color:var(--muted)}
+
+.btn{border:none;cursor:pointer;border-radius:12px;font-family:'Cabinet Grotesk',sans-serif;font-weight:700;font-size:14px;display:inline-flex;align-items:center;justify-content:center;gap:7px;transition:all 0.2s;position:relative;overflow:hidden}
+.btn-grad{background:var(--grad);color:white;padding:13px 22px;width:100%;box-shadow:0 8px 24px rgba(255,61,90,0.35)}
+.btn-grad:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(255,61,90,0.5)}
+.btn-ghost{background:rgba(255,255,255,0.05);color:var(--text);padding:13px 18px;border:1px solid var(--border)}
+.btn-ghost:hover{background:rgba(255,255,255,0.09);border-color:var(--border2)}
+.btn-danger{background:rgba(255,61,90,0.1);color:var(--r);padding:10px 16px;border:1px solid rgba(255,61,90,0.2)}
+.btn-danger:hover{background:rgba(255,61,90,0.2)}
+.btn-gold{background:linear-gradient(135deg,#f59e0b,#f97316);color:white;padding:14px 22px;width:100%;font-size:15px;box-shadow:0 8px 24px rgba(249,115,22,0.4)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(249,115,22,0.55)}
+
+.link-box{margin-top:16px;background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.2);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 16px rgba(0,212,170,0.1)}
+.link-text{font-size:12px;color:var(--teal);word-break:break-all;flex:1;font-family:monospace}
+.copy-btn{background:rgba(0,212,170,0.15);border:1px solid rgba(0,212,170,0.3);border-radius:8px;padding:6px 12px;color:var(--teal);font-size:12px;cursor:pointer;white-space:nowrap;font-weight:700;font-family:'Cabinet Grotesk',sans-serif;transition:all 0.2s}
+.copy-btn:hover{background:rgba(0,212,170,0.25)}
+
+.draws-section{min-height:400px}
+.draws-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+.draw-card{padding:22px;cursor:default;background:linear-gradient(150deg,#141428,#0f0f1e);animation:cardIn 0.4s ease both}
+@keyframes cardIn{from{opacity:0;transform:translateY(30px) rotateX(15deg)}to{opacity:1;transform:translateY(0) rotateX(0)}}
+.draw-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.draw-card-name{font-family:'Clash Display',sans-serif;font-size:17px;font-weight:700;letter-spacing:-0.02em;line-height:1.2}
+.draw-card-creator{font-size:12px;color:var(--muted);margin-top:3px}
+.badge{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:0.04em;white-space:nowrap}
+.badge-live{background:rgba(0,230,118,0.12);color:var(--green);border:1px solid rgba(0,230,118,0.25)}
+.badge-ended{background:rgba(255,61,90,0.12);color:var(--r);border:1px solid rgba(255,61,90,0.25)}
+.draw-card-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.dstat{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center}
+.dstat-num{font-family:'Clash Display',sans-serif;font-size:22px;font-weight:700;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.dstat-lbl{font-size:10px;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;margin-top:2px}
+.draw-card-actions{display:flex;gap:8px;margin-top:14px}
+.draw-card-actions .btn{flex:1;padding:10px 12px;font-size:13px}
+
+.overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.75);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.3s}
+.overlay.open{opacity:1;pointer-events:all}
+.modal{
+  background:linear-gradient(160deg,#141428,#0d0d1e);border:1px solid var(--border2);
+  border-radius:24px;padding:32px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;
+  transform:scale(0.88) translateY(24px);
+  transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow:0 40px 80px rgba(0,0,0,0.85),0 0 0 1px rgba(255,255,255,0.05),inset 0 1px 0 rgba(255,255,255,0.06);
+  transform-style:preserve-3d;
+}
+.overlay.open .modal{transform:scale(1) translateY(0)}
+.modal-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px}
+.modal-title{font-family:'Clash Display',sans-serif;font-size:22px;font-weight:700;letter-spacing:-0.02em}
+.modal-sub{font-size:13px;color:var(--muted);margin-top:4px}
+.close-btn{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--muted);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0}
+.close-btn:hover{background:rgba(255,61,90,0.1);color:var(--r);border-color:rgba(255,61,90,0.3)}
+.modal-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.mstat{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;padding:16px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.04)}
+.mstat-num{font-family:'Clash Display',sans-serif;font-size:28px;font-weight:700;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mstat-lbl{font-size:10px;color:var(--muted);letter-spacing:0.07em;text-transform:uppercase;margin-top:4px}
+
+.winner-card{background:linear-gradient(135deg,rgba(0,230,118,0.08),rgba(0,212,170,0.04));border:1px solid rgba(0,230,118,0.2);border-radius:16px;padding:18px;margin-bottom:12px;animation:winnerDrop 0.6s cubic-bezier(0.34,1.56,0.64,1) both;box-shadow:0 8px 24px rgba(0,230,118,0.1),inset 0 1px 0 rgba(255,255,255,0.04)}
+@keyframes winnerDrop{from{opacity:0;transform:scale(0.7) rotateX(30deg)}to{opacity:1;transform:scale(1) rotateX(0)}}
+.winner-badge{font-size:11px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--green);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.winner-name{font-family:'Clash Display',sans-serif;font-size:20px;font-weight:700}
+.winner-detail{font-size:13px;color:var(--muted);margin-top:5px}
+.winner-detail a{color:var(--teal);text-decoration:none}
+
+/* LOGIN */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;padding:20px}
+.login-box{
+  background:linear-gradient(160deg,#141428,#0d0d1e);border:1px solid var(--border2);
+  border-radius:28px;padding:52px 44px;max-width:440px;width:100%;text-align:center;
+  box-shadow:var(--shadow3d),inset 0 1px 0 rgba(255,255,255,0.06);
+  animation:loginFloat 6s ease-in-out infinite;
+}
+@keyframes loginFloat{0%,100%{transform:translateY(0) rotateX(0) rotateY(0)}33%{transform:translateY(-10px) rotateX(2deg) rotateY(2deg)}66%{transform:translateY(-5px) rotateX(-1deg) rotateY(-1deg)}}
+.login-glyph{font-size:60px;margin-bottom:20px;display:block;animation:glyph3d 6s ease-in-out infinite}
+@keyframes glyph3d{0%,100%{transform:rotateY(0) scale(1)}50%{transform:rotateY(25deg) scale(1.05) rotateX(8deg)}}
+.login-title{font-family:'Clash Display',sans-serif;font-size:32px;font-weight:700;letter-spacing:-0.03em;margin-bottom:8px}
+.login-sub{color:var(--muted);font-size:15px;line-height:1.6;margin-bottom:36px}
+.btn-google{width:100%;background:white;color:#111;border:none;border-radius:14px;padding:15px 22px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;font-family:'Cabinet Grotesk',sans-serif;transition:all 0.25s;box-shadow:0 8px 24px rgba(0,0,0,0.4)}
+.btn-google:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,0.5)}
+
+/* PARTICIPANT */
+.p-page{position:relative;z-index:1;min-height:100vh}
+.p-hero{padding:80px 24px 60px;text-align:center;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 100%,rgba(255,61,90,0.2) 0%,transparent 70%)}
+.p-cube{width:100px;height:100px;margin:0 auto 24px;display:flex;align-items:center;justify-content:center;font-size:60px;filter:drop-shadow(0 16px 32px rgba(255,61,90,0.4));animation:cubeFloat 4s ease-in-out infinite}
+@keyframes cubeFloat{0%,100%{transform:rotateY(0) rotateX(0) translateY(0)}25%{transform:rotateY(18deg) rotateX(6deg) translateY(-12px)}75%{transform:rotateY(-18deg) rotateX(-6deg) translateY(-6px)}}
+.p-title{font-family:'Clash Display',sans-serif;font-size:clamp(28px,6vw,52px);font-weight:700;letter-spacing:-0.03em;line-height:1.1;margin-bottom:10px}
+.p-title span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.p-sub{color:rgba(238,238,255,0.55);font-size:16px}
+.p-body{max-width:520px;margin:0 auto;padding:36px 20px}
+.trust-row{display:flex;justify-content:center;gap:32px;margin-bottom:32px}
+.trust-item{text-align:center}
+.trust-num{font-family:'Clash Display',sans-serif;font-size:26px;font-weight:700;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.trust-lbl{font-size:11px;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;margin-top:2px}
+.p-form-card{padding:28px;background:linear-gradient(160deg,#141428,#0d0d1e)}
+
+.success-card{display:none;background:linear-gradient(135deg,rgba(0,230,118,0.1),rgba(0,212,170,0.05));border:1px solid rgba(0,230,118,0.25);border-radius:20px;padding:40px;text-align:center;box-shadow:0 24px 48px rgba(0,230,118,0.15),inset 0 1px 0 rgba(255,255,255,0.04)}
+.success-icon{font-size:60px;margin-bottom:16px;animation:successBounce 0.6s cubic-bezier(0.34,1.56,0.64,1) 0.2s both;display:block}
+@keyframes successBounce{from{transform:scale(0) rotateY(180deg)}to{transform:scale(1) rotateY(0)}}
+.success-title{font-family:'Clash Display',sans-serif;font-size:26px;font-weight:700;color:var(--green);margin-bottom:6px}
+.success-sub{color:var(--muted);font-size:14px}
+
+.already-card{display:none;background:rgba(255,61,90,0.07);border:1px solid rgba(255,61,90,0.2);border-radius:20px;padding:32px;text-align:center;box-shadow:0 16px 40px rgba(255,61,90,0.1)}
+
+#toast-container{position:fixed;bottom:28px;right:28px;z-index:9999;display:flex;flex-direction:column;gap:10px;align-items:flex-end}
+.toast{background:var(--card2);border:1px solid var(--border2);border-radius:14px;padding:14px 18px;font-size:14px;box-shadow:0 16px 40px rgba(0,0,0,0.6);animation:toastIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both;max-width:320px}
+@keyframes toastIn{from{opacity:0;transform:translateX(20px) scale(0.9)}to{opacity:1;transform:translateX(0) scale(1)}}
+.toast.out{animation:toastOut 0.3s ease forwards}
+@keyframes toastOut{to{opacity:0;transform:translateX(20px)}}
+
+#confetti-canvas{position:fixed;inset:0;pointer-events:none;z-index:8888}
+.divider{height:1px;background:var(--border);margin:20px 0}
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty-icon{font-size:52px;margin-bottom:16px;opacity:0.5}
+.empty-text{font-size:15px;line-height:1.6}
+.hidden{display:none!important}
+.spinner{width:20px;height:20px;border:2px solid rgba(255,255,255,0.2);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
 </head>
 <body>
 
-    <div class="container">
-        <div id="creatorSection">
-            <h1>It's time for the draw 🎲</h1>
-            <div id="loginArea">
-                <p>Çekiliş oluşturmak için giriş yapın.</p>
-                <button id="loginBtn">Google ile Giriş Yap</button>
-            </div>
+<div class="scene-bg">
+  <div class="grid-floor"></div>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+<canvas id="confetti-canvas"></canvas>
+<div id="toast-container"></div>
 
-            <div id="dashboardArea" class="hidden">
-                <p>Hoş geldin, <span id="userName"></span>!</p>
-                <button id="logoutBtn" style="background:#ef4444; margin-bottom:20px;">Çıkış Yap</button>
+<nav class="topbar" id="topbar">
+  <div class="logo">🎲 ÇEKİLİŞ</div>
+  <div class="topbar-right" id="topbarRight"></div>
+</nav>
 
-                <h3>Yeni Çekiliş Oluştur</h3>
-                <input type="text" id="drawName" placeholder="Çekiliş İsmi (Boşluk kullanmayın)">
-                <input type="datetime-local" id="drawEndTime" placeholder="Son Katılım (İsteğe Bağlı)">
-                <button id="createDrawBtn">Çekilişi Oluştur & Link Al</button>
-                
-                <div id="linkContainer" class="hidden">
-                    <p>Özel Linkiniz:</p>
-                    <a id="shareLink" href="#" target="_blank" style="color:#60a5fa;"></a>
-                </div>
-
-                <hr style="border-color:#334155; margin: 20px 0;">
-                
-                <h3>Çekilişi Yönet</h3>
-                <input type="text" id="manageDrawId" placeholder="Çekiliş ID'sini (Linkin son kısmı) girin">
-                <button id="loadDrawBtn">Çekilişi Getir</button>
-                
-                <div id="drawManager" class="hidden">
-                    <p>Toplam Katılımcı: <strong id="participantCount">0</strong></p>
-                    <button id="drawWinnerBtn" style="background:#eab308; color:black;">🏆 Kazanan Seç</button>
-                    <div id="winnersList"></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="participantSection" class="hidden">
-            <h1 id="pDrawName">Çekiliş Vakti!</h1>
-            <p>Bu çekilişe katılıyorsunuz.</p>
-            
-            <form id="joinForm">
-                <input type="text" id="pFullName" placeholder="Gerçek Adınız ve Soyadınız" required>
-                <input type="text" id="pContact" placeholder="E-posta, Tel veya Instagram (Zorunlu)" required>
-                <input type="url" id="pYtLink" placeholder="YouTube Kanal Linkiniz (İsteğe Bağlı)">
-                <button type="submit">Çekilişe Katıl</button>
-            </form>
-            <p id="joinMessage" style="color: #22c55e; display: none;">Katılımınız başarıyla alındı! Bol şans.</p>
-        </div>
+<!-- PARTICIPANT PAGE -->
+<div id="participantPage" class="p-page hidden">
+  <div class="p-hero">
+    <div class="p-cube">🎁</div>
+    <div class="p-title"><span id="pTitleDraw">Çekiliş</span> Vakti!</div>
+    <div class="p-sub" id="pSubtext">Bu çekilişe katıl ve şansını dene</div>
+  </div>
+  <div class="p-body">
+    <div class="trust-row">
+      <div class="trust-item"><div class="trust-num" id="pPartCount">—</div><div class="trust-lbl">Katılımcı</div></div>
+      <div class="trust-item"><div class="trust-num">%100</div><div class="trust-lbl">Şeffaf</div></div>
+      <div class="trust-item"><div class="trust-num" id="pTimeLeft">⏳</div><div class="trust-lbl">Kalan</div></div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, doc, setDoc, getDoc, getDocs, updateDoc, query, where } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    <div class="card3d p-form-card" id="pFormCard">
+      <div style="margin-bottom:22px">
+        <div style="font-family:'Clash Display',sans-serif;font-size:20px;font-weight:700;margin-bottom:4px">Katılım Formu</div>
+        <div style="font-size:13px;color:var(--muted)">Her kişi yalnızca 1 kez katılabilir</div>
+      </div>
+      <div class="inp-wrap">
+        <label class="inp-label">Ad Soyad</label>
+        <input class="inp" id="pFullName" placeholder="Ahmet Yılmaz">
+      </div>
+      <div class="inp-wrap">
+        <label class="inp-label">İletişim (E-posta / Telefon / Instagram)</label>
+        <input class="inp" id="pContact" placeholder="@ornek veya ornek@mail.com">
+      </div>
+      <div class="inp-wrap">
+        <label class="inp-label">YouTube Kanal Linki (İsteğe Bağlı)</label>
+        <input class="inp" id="pYtLink" placeholder="https://youtube.com/@kanal">
+      </div>
+      <button class="btn btn-grad" id="joinBtn" style="margin-top:6px">🚀 Çekilişe Katıl</button>
+    </div>
 
-        // Senin verdiğin Firebase ayarları
-        const firebaseConfig = {
-            apiKey: "AIzaSyAIFpdDza_jwo0W4uQ_wAiTL3jvFLGmFzU",
-            authDomain: "it-s-time-for-the-draw.firebaseapp.com",
-            projectId: "it-s-time-for-the-draw",
-            storageBucket: "it-s-time-for-the-draw.firebasestorage.app",
-            messagingSenderId: "526815408485",
-            appId: "1:526815408485:web:749ad3761c8f97ca14718c",
-            measurementId: "G-JG5PMSX9RH"
-        };
+    <div class="success-card" id="successCard">
+      <span class="success-icon">🎉</span>
+      <div class="success-title">Katılımın Alındı!</div>
+      <div class="success-sub">Çekiliş sonucunu bekle. Bol şans! 🍀</div>
+    </div>
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+    <div class="already-card" id="alreadyCard">
+      <div style="font-size:40px;margin-bottom:12px">⚠️</div>
+      <div style="font-family:'Clash Display',sans-serif;font-size:20px;font-weight:700;color:var(--r);margin-bottom:6px">Zaten Katıldın!</div>
+      <div style="font-size:14px;color:var(--muted)">Bu çekilişe daha önce katıldın. Her kişi yalnızca 1 kez katılabilir.</div>
+    </div>
+  </div>
+</div>
 
-        // URL Kontrolü (Biz bir çekiliş sayfasında mıyız yoksa ana sayfada mı?)
-        const urlParams = new URLSearchParams(window.location.search);
-        const urlCreator = urlParams.get('c');
-        const urlGiveaway = urlParams.get('g');
+<!-- CREATOR APP -->
+<div id="creatorApp" class="hidden">
+  <div id="loginScreen" class="login-wrap">
+    <div class="login-box">
+      <span class="login-glyph">🎲</span>
+      <div class="login-title">Çekiliş Platformu</div>
+      <div class="login-sub">Birden fazla çekiliş oluştur, yönet ve kazananı belirle. Şeffaf, hızlı, 3D.</div>
+      <button class="btn-google" id="loginBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Google ile Giriş Yap
+      </button>
+    </div>
+  </div>
 
-        const creatorSection = document.getElementById('creatorSection');
-        const participantSection = document.getElementById('participantSection');
+  <div id="dashboard" class="hidden">
+    <div class="app">
+      <div class="dash-grid">
+        <!-- LEFT -->
+        <div>
+          <div class="card3d create-panel" style="margin-bottom:20px">
+            <div class="panel-header">
+              <div class="panel-icon">✨</div>
+              <div><div class="panel-title">Yeni Çekiliş</div><div class="panel-sub">Link oluştur ve paylaş</div></div>
+            </div>
+            <div class="inp-wrap">
+              <label class="inp-label">Çekiliş Adı</label>
+              <input class="inp" id="drawName" placeholder="iphone16_cekilisi">
+            </div>
+            <div class="inp-wrap">
+              <label class="inp-label">Ödül (İsteğe Bağlı)</label>
+              <input class="inp" id="drawPrize" placeholder="iPhone 16 Pro Max">
+            </div>
+            <div class="inp-wrap">
+              <label class="inp-label">Son Katılım Tarihi</label>
+              <input class="inp" type="datetime-local" id="drawEndTime">
+            </div>
+            <button class="btn btn-grad" id="createDrawBtn">✨ Çekiliş Oluştur</button>
+            <div id="linkContainer" class="hidden">
+              <div class="link-box">
+                <div class="link-text" id="shareLinkText">—</div>
+                <button class="copy-btn" id="copyLinkBtn">📋</button>
+              </div>
+            </div>
+          </div>
 
-        if (urlCreator && urlGiveaway) {
-            // Katılımcı Modu
-            creatorSection.classList.add('hidden');
-            participantSection.classList.remove('hidden');
-            document.getElementById('pDrawName').innerText = `${urlCreator.replace(/_/g, ' ')} - ${urlGiveaway.replace(/_/g, ' ')} Çekilişi`;
-            
-            document.getElementById('joinForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const fullName = document.getElementById('pFullName').value;
-                const contact = document.getElementById('pContact').value;
-                const ytLink = document.getElementById('pYtLink').value;
-                const drawId = `${urlCreator}_${urlGiveaway}`;
+          <div class="card3d" style="padding:20px;background:linear-gradient(150deg,#141428,#0d0d1e)">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+              <div class="tb-avatar" id="sideAvatar" style="width:46px;height:46px;border-radius:14px;font-size:18px">?</div>
+              <div>
+                <div style="font-family:'Clash Display',sans-serif;font-weight:700" id="sideName">—</div>
+                <div style="font-size:12px;color:var(--muted)">Çekiliş Yöneticisi</div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+              <div class="dstat"><div class="dstat-num" id="statTotal">0</div><div class="dstat-lbl">Çekiliş</div></div>
+              <div class="dstat"><div class="dstat-num" id="statWinners">0</div><div class="dstat-lbl">Kazanan</div></div>
+            </div>
+            <button class="btn btn-danger" style="width:100%" id="logoutBtn">Çıkış Yap</button>
+          </div>
+        </div>
 
-                try {
-                    // Katılımcıyı veritabanına ekle
-                    await addDoc(collection(db, `giveaways/${drawId}/participants`), {
-                        fullName: fullName,
-                        contact: contact,
-                        ytLink: ytLink,
-                        isWinner: false,
-                        timestamp: new Date()
-                    });
-                    document.getElementById('joinForm').style.display = 'none';
-                    document.getElementById('joinMessage').style.display = 'block';
-                } catch (error) {
-                    alert("Bir hata oluştu: " + error.message);
-                }
-            });
+        <!-- RIGHT -->
+        <div class="draws-section">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+            <div><div class="sec-title">Çekilişlerim</div><div class="sec-sub">Tüm çekilişleri buradan yönet</div></div>
+            <button class="btn btn-ghost" id="refreshDrawsBtn" style="padding:10px 16px;font-size:13px">🔄 Yenile</button>
+          </div>
+          <div class="draws-grid" id="drawsGrid">
+            <div class="empty-state"><div class="empty-icon">🎲</div><div class="empty-text">Henüz çekiliş yok.<br>İlk çekilişini oluştur!</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-        } else {
-            // Çekiliş Yapan (Yönetici) Modu
-            const loginBtn = document.getElementById('loginBtn');
-            const logoutBtn = document.getElementById('logoutBtn');
-            const loginArea = document.getElementById('loginArea');
-            const dashboardArea = document.getElementById('dashboardArea');
-            let currentUser = null;
+<!-- MANAGER MODAL -->
+<div class="overlay" id="managerOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modalDrawTitle">Çekiliş Yönetimi</div>
+        <div class="modal-sub" id="modalDrawSub">—</div>
+      </div>
+      <button class="close-btn" id="closeModal">✕</button>
+    </div>
+    <div class="modal-stats">
+      <div class="mstat"><div class="mstat-num" id="mPartCount">0</div><div class="mstat-lbl">Katılımcı</div></div>
+      <div class="mstat"><div class="mstat-num" id="mWinCount">0</div><div class="mstat-lbl">Kazanan</div></div>
+      <div class="mstat"><div class="mstat-num" id="mEligible">0</div><div class="mstat-lbl">Uygun</div></div>
+    </div>
+    <button class="btn btn-gold" id="drawWinnerBtn">🏆 Kazanan Seç</button>
+    <div class="divider"></div>
+    <div id="modalWinnersList"></div>
+  </div>
+</div>
 
-            // Giriş Durumu Dinleyicisi
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    currentUser = user;
-                    loginArea.classList.add('hidden');
-                    dashboardArea.classList.remove('hidden');
-                    document.getElementById('userName').innerText = user.displayName;
-                } else {
-                    currentUser = null;
-                    loginArea.classList.remove('hidden');
-                    dashboardArea.classList.add('hidden');
-                }
-            });
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import { getFirestore, collection, addDoc, doc, setDoc, getDoc, getDocs, updateDoc, query, where } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-            // Google ile Giriş
-            loginBtn.addEventListener('click', () => {
-                const provider = new GoogleAuthProvider();
-                signInWithPopup(auth, provider).catch(err => alert(err.message));
-            });
+const firebaseConfig = {
+  apiKey:"AIzaSyAIFpdDza_jwo0W4uQ_wAiTL3jvFLGmFzU",
+  authDomain:"it-s-time-for-the-draw.firebaseapp.com",
+  projectId:"it-s-time-for-the-draw",
+  storageBucket:"it-s-time-for-the-draw.firebasestorage.app",
+  messagingSenderId:"526815408485",
+  appId:"1:526815408485:web:749ad3761c8f97ca14718c"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-            // Çıkış
-            logoutBtn.addEventListener('click', () => {
-                signOut(auth);
-            });
+function confetti(){
+  const c=document.getElementById('confetti-canvas');
+  const ctx=c.getContext('2d');
+  c.width=window.innerWidth; c.height=window.innerHeight;
+  const ps=Array.from({length:160},()=>({
+    x:Math.random()*c.width, y:Math.random()*c.height-c.height,
+    r:3+Math.random()*5, vy:2+Math.random()*4,
+    vx:(Math.random()-.5)*3, ang:Math.random()*360,
+    va:(Math.random()-.5)*8,
+    col:['#ff3d5a','#ff8c00','#b06eff','#00d4aa','#ffd700'][~~(Math.random()*5)]
+  }));
+  let f=0;
+  (function draw(){
+    ctx.clearRect(0,0,c.width,c.height);
+    ps.forEach(p=>{
+      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.ang*Math.PI/180);
+      ctx.fillStyle=p.col;ctx.fillRect(-p.r,-p.r/2,p.r*2,p.r);
+      ctx.restore();
+      p.y+=p.vy; p.x+=p.vx; p.ang+=p.va;
+      if(p.y>c.height){p.y=-10;p.x=Math.random()*c.width}
+    });
+    if(++f<240) requestAnimationFrame(draw);
+    else ctx.clearRect(0,0,c.width,c.height);
+  })();
+}
 
-            // Çekiliş Oluştur
-            document.getElementById('createDrawBtn').addEventListener('click', async () => {
-                const drawNameRaw = document.getElementById('drawName').value;
-                const endTime = document.getElementById('drawEndTime').value;
-                
-                if(!drawNameRaw) return alert('Lütfen çekiliş ismi girin!');
-                
-                // İsimleri URL'ye uygun hale getir
-                const safeCreatorName = currentUser.displayName.replace(/\s+/g, '_').toLowerCase();
-                const safeDrawName = drawNameRaw.replace(/\s+/g, '_').toLowerCase();
-                const drawId = `${safeCreatorName}_${safeDrawName}`;
+function toast(msg,type='info'){
+  const el=document.createElement('div');
+  el.className='toast';
+  const col=type==='success'?'var(--green)':type==='error'?'var(--r)':'var(--p)';
+  el.style.borderLeft=`3px solid ${col}`;
+  el.textContent=msg;
+  document.getElementById('toast-container').appendChild(el);
+  setTimeout(()=>{el.classList.add('out');setTimeout(()=>el.remove(),300)},3200);
+}
 
-                try {
-                    await setDoc(doc(db, "giveaways", drawId), {
-                        creatorId: currentUser.uid,
-                        creatorName: safeCreatorName,
-                        drawName: safeDrawName,
-                        endTime: endTime,
-                        createdAt: new Date()
-                    });
-                    
-                    const link = `${window.location.origin}${window.location.pathname}?c=${safeCreatorName}&g=${safeDrawName}`;
-                    const linkContainer = document.getElementById('linkContainer');
-                    const shareLink = document.getElementById('shareLink');
-                    
-                    shareLink.href = link;
-                    shareLink.innerText = link;
-                    linkContainer.classList.remove('hidden');
-                    
-                    // Yönetim alanına otomatik doldur
-                    document.getElementById('manageDrawId').value = drawId;
-                } catch (error) {
-                    alert('Hata: ' + error.message);
-                }
-            });
+/* 3D tilt effect */
+document.addEventListener('mousemove',e=>{
+  document.querySelectorAll('.card3d').forEach(card=>{
+    const r=card.getBoundingClientRect();
+    const cx=r.left+r.width/2, cy=r.top+r.height/2;
+    const dx=(e.clientX-cx)/r.width, dy=(e.clientY-cy)/r.height;
+    const dist=Math.sqrt(dx*dx+dy*dy);
+    if(dist<0.9){
+      card.style.transform=`perspective(700px) rotateY(${dx*10}deg) rotateX(${-dy*10}deg) translateY(-5px)`;
+      card.style.boxShadow=`${-dx*20}px ${-dy*20+40}px 80px rgba(0,0,0,0.7),0 12px 24px rgba(255,61,90,0.2),inset 0 1px 0 rgba(255,255,255,0.07)`;
+    } else {
+      card.style.transform='';
+      card.style.boxShadow='';
+    }
+  });
+});
 
-            // Çekilişi Yönet & Katılımcıları Çek
-            let currentParticipants = [];
-            let currentDrawId = "";
-            let winnerCount = 0;
+const pr=new URLSearchParams(location.search);
+const urlC=pr.get('c'), urlG=pr.get('g');
 
-            document.getElementById('loadDrawBtn').addEventListener('click', async () => {
-                currentDrawId = document.getElementById('manageDrawId').value;
-                if(!currentDrawId) return alert('Çekiliş ID girin (örn: ismail_iphone_cekilisi)');
-                
-                const q = query(collection(db, `giveaways/${currentDrawId}/participants`), where("isWinner", "==", false));
-                const querySnapshot = await getDocs(q);
-                
-                currentParticipants = [];
-                querySnapshot.forEach((doc) => {
-                    currentParticipants.push({ id: doc.id, ...doc.data() });
-                });
-                
-                document.getElementById('participantCount').innerText = currentParticipants.length;
-                document.getElementById('drawManager').classList.remove('hidden');
-                document.getElementById('winnersList').innerHTML = "";
-                winnerCount = 0;
-            });
+if(urlC && urlG){
+  /* ═ PARTICIPANT ═ */
+  document.getElementById('topbar').classList.add('hidden');
+  document.getElementById('participantPage').classList.remove('hidden');
+  const drawId=`${urlC}_${urlG}`;
+  document.getElementById('pTitleDraw').textContent=urlG.replace(/_/g,' ');
 
-            // Kazanan Çek
-            document.getElementById('drawWinnerBtn').addEventListener('click', async () => {
-                if(currentParticipants.length === 0) {
-                    return alert('Çekiliş yapacak uygun katılımcı kalmadı!');
-                }
-
-                // Rastgele seç
-                const randomIndex = Math.floor(Math.random() * currentParticipants.length);
-                const winner = currentParticipants[randomIndex];
-                winnerCount++;
-
-                // Seçileni veritabanında "kazandı" olarak işaretle (Bir daha çıkmasın diye)
-                const winnerRef = doc(db, `giveaways/${currentDrawId}/participants`, winner.id);
-                await updateDoc(winnerRef, { isWinner: true });
-
-                // Listeden çıkar
-                currentParticipants.splice(randomIndex, 1);
-                document.getElementById('participantCount').innerText = currentParticipants.length;
-
-                // Ekrana yazdır
-                const winnerDiv = document.createElement('div');
-                winnerDiv.className = 'winner-card';
-                winnerDiv.innerHTML = `
-                    ${winnerCount}. Kazanan: ${winner.fullName} <br>
-                    <small>İletişim: ${winner.contact}</small><br>
-                    ${winner.ytLink ? `<small>YT: <a href="${winner.ytLink}" target="_blank" style="color:white;">Kanala Git</a></small>` : ''}
-                `;
-                document.getElementById('winnersList').appendChild(winnerDiv);
-            });
+  (async()=>{
+    try{
+      const dd=await getDoc(doc(db,'giveaways',drawId));
+      if(dd.exists()){
+        const d=dd.data();
+        if(d.prize) document.getElementById('pSubtext').textContent='🏆 Ödül: '+d.prize;
+        if(d.endTime){
+          const el=document.getElementById('pTimeLeft');
+          function upd(){
+            const diff=new Date(d.endTime)-Date.now();
+            if(diff<=0){el.textContent='Bitti';return}
+            const dg=Math.floor(diff/86400000),h=Math.floor(diff%86400000/3600000),m=Math.floor(diff%3600000/60000);
+            el.textContent=dg?`${dg}g ${h}s`:`${h}s ${m}dk`;
+            setTimeout(upd,60000);
+          }upd();
         }
-    </script>
+      }
+      const snap=await getDocs(collection(db,`giveaways/${drawId}/participants`));
+      document.getElementById('pPartCount').textContent=snap.size;
+    }catch(e){}
+  })();
+
+  const lsKey=`joined_${drawId}`;
+  if(localStorage.getItem(lsKey)){
+    document.getElementById('pFormCard').classList.add('hidden');
+    document.getElementById('alreadyCard').style.display='block';
+  }
+
+  document.getElementById('joinBtn').addEventListener('click',async()=>{
+    if(localStorage.getItem(lsKey)){
+      document.getElementById('pFormCard').classList.add('hidden');
+      document.getElementById('alreadyCard').style.display='block';
+      return;
+    }
+    const fullName=document.getElementById('pFullName').value.trim();
+    const contact=document.getElementById('pContact').value.trim().toLowerCase();
+    const ytLink=document.getElementById('pYtLink').value.trim();
+    if(!fullName||!contact) return toast('Ad ve iletişim bilgisi zorunlu!','error');
+    const btn=document.getElementById('joinBtn');
+    btn.innerHTML='<span class="spinner"></span>';
+    btn.disabled=true;
+    try{
+      const qDup=query(collection(db,`giveaways/${drawId}/participants`),where('contact','==',contact));
+      const dupSnap=await getDocs(qDup);
+      if(!dupSnap.empty){
+        localStorage.setItem(lsKey,'1');
+        document.getElementById('pFormCard').classList.add('hidden');
+        document.getElementById('alreadyCard').style.display='block';
+        return;
+      }
+      await addDoc(collection(db,`giveaways/${drawId}/participants`),{fullName,contact,ytLink,isWinner:false,timestamp:new Date()});
+      localStorage.setItem(lsKey,'1');
+      document.getElementById('pFormCard').classList.add('hidden');
+      document.getElementById('successCard').style.display='block';
+      confetti();
+    }catch(e){toast('Hata: '+e.message,'error');btn.innerHTML='🚀 Çekilişe Katıl';btn.disabled=false;}
+  });
+
+}else{
+  /* ═ CREATOR ═ */
+  document.getElementById('creatorApp').classList.remove('hidden');
+  let currentUser=null;
+  let managerDrawId='', managerParticipants=[], managerWinCount=0;
+
+  onAuthStateChanged(auth,async user=>{
+    if(user){
+      currentUser=user;
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('dashboard').classList.remove('hidden');
+      const init=(user.displayName||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+      document.getElementById('sideAvatar').textContent=init;
+      document.getElementById('sideName').textContent=user.displayName;
+      document.getElementById('topbarRight').innerHTML=`<div class="tb-avatar">${init}</div>`;
+      await loadMyDraws();
+    }else{
+      currentUser=null;
+      document.getElementById('loginScreen').classList.remove('hidden');
+      document.getElementById('dashboard').classList.add('hidden');
+    }
+  });
+
+  document.getElementById('loginBtn').addEventListener('click',()=>signInWithPopup(auth,new GoogleAuthProvider()).catch(e=>toast(e.message,'error')));
+  document.getElementById('logoutBtn').addEventListener('click',()=>signOut(auth));
+
+  async function loadMyDraws(){
+    if(!currentUser) return;
+    const grid=document.getElementById('drawsGrid');
+    grid.innerHTML='<div style="padding:20px;color:var(--muted);text-align:center;grid-column:1/-1"><span class="spinner"></span> Yükleniyor…</div>';
+    try{
+      const q=query(collection(db,'giveaways'),where('creatorId','==',currentUser.uid));
+      const snap=await getDocs(q);
+      const draws=[];
+      snap.forEach(d=>draws.push({id:d.id,...d.data()}));
+      document.getElementById('statTotal').textContent=draws.length;
+      if(!draws.length){
+        grid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">🎲</div><div class="empty-text">Henüz çekiliş yok.<br>İlk çekilişini oluştur!</div></div>';
+        return;
+      }
+      const withCounts=await Promise.all(draws.map(async draw=>{
+        const pSnap=await getDocs(collection(db,`giveaways/${draw.id}/participants`));
+        const wSnap=await getDocs(query(collection(db,`giveaways/${draw.id}/participants`),where('isWinner','==',true)));
+        return{...draw,partCount:pSnap.size,winCount:wSnap.size};
+      }));
+      const totalW=withCounts.reduce((a,d)=>a+d.winCount,0);
+      document.getElementById('statWinners').textContent=totalW;
+      grid.innerHTML='';
+      withCounts.forEach((draw,i)=>{
+        const isEnded=draw.endTime&&new Date(draw.endTime)<new Date();
+        const el=document.createElement('div');
+        el.className='card3d draw-card';
+        el.style.animationDelay=`${i*0.07}s`;
+        const link=`${location.origin}${location.pathname}?c=${draw.creatorName}&g=${draw.drawName}`;
+        el.innerHTML=`
+          <div class="draw-card-top">
+            <div>
+              <div class="draw-card-name">${draw.drawName.replace(/_/g,' ')}</div>
+              <div class="draw-card-creator">${draw.prize||'Ödül belirtilmemiş'}</div>
+            </div>
+            <span class="badge ${isEnded?'badge-ended':'badge-live'}">${isEnded?'Bitti':'● Aktif'}</span>
+          </div>
+          ${draw.endTime?`<div style="font-size:11px;color:var(--muted);margin-bottom:4px">⏰ ${new Date(draw.endTime).toLocaleString('tr-TR')}</div>`:''}
+          <div class="draw-card-stats">
+            <div class="dstat"><div class="dstat-num">${draw.partCount}</div><div class="dstat-lbl">Katılımcı</div></div>
+            <div class="dstat"><div class="dstat-num">${draw.winCount}</div><div class="dstat-lbl">Kazanan</div></div>
+          </div>
+          <div class="draw-card-actions">
+            <button class="btn btn-ghost manage-btn" data-id="${draw.id}" data-name="${draw.drawName}" data-prize="${draw.prize||''}">⚙️ Yönet</button>
+            <button class="btn btn-ghost copy-draw-btn" data-link="${link}" style="flex:0;padding:10px 14px" title="Linki Kopyala">📋</button>
+          </div>`;
+        grid.appendChild(el);
+      });
+      grid.querySelectorAll('.manage-btn').forEach(b=>b.addEventListener('click',()=>openManager(b.dataset.id,b.dataset.name,b.dataset.prize)));
+      grid.querySelectorAll('.copy-draw-btn').forEach(b=>b.addEventListener('click',()=>{navigator.clipboard.writeText(b.dataset.link);toast('📋 Link kopyalandı!','success')}));
+    }catch(e){toast('Yükleme hatası: '+e.message,'error');}
+  }
+
+  document.getElementById('refreshDrawsBtn').addEventListener('click',loadMyDraws);
+
+  document.getElementById('createDrawBtn').addEventListener('click',async()=>{
+    if(!currentUser) return;
+    const raw=document.getElementById('drawName').value.trim();
+    const prize=document.getElementById('drawPrize').value.trim();
+    const endTime=document.getElementById('drawEndTime').value;
+    if(!raw) return toast('Çekiliş adı girin!','error');
+    const safeC=currentUser.displayName.replace(/\s+/g,'_').toLowerCase();
+    const safeD=raw.replace(/\s+/g,'_').toLowerCase();
+    const drawId=`${safeC}_${safeD}`;
+    const btn=document.getElementById('createDrawBtn');
+    btn.innerHTML='<span class="spinner"></span>';
+    btn.disabled=true;
+    try{
+      await setDoc(doc(db,'giveaways',drawId),{creatorId:currentUser.uid,creatorName:safeC,drawName:safeD,prize,endTime,createdAt:new Date()});
+      const link=`${location.origin}${location.pathname}?c=${safeC}&g=${safeD}`;
+      document.getElementById('shareLinkText').textContent=link;
+      document.getElementById('linkContainer').classList.remove('hidden');
+      toast('✅ Çekiliş oluşturuldu!','success');
+      await loadMyDraws();
+    }catch(e){toast('Hata: '+e.message,'error');}
+    finally{btn.innerHTML='✨ Çekiliş Oluştur';btn.disabled=false;}
+  });
+
+  document.getElementById('copyLinkBtn').addEventListener('click',()=>{
+    navigator.clipboard.writeText(document.getElementById('shareLinkText').textContent);
+    toast('📋 Link kopyalandı!','success');
+  });
+
+  async function openManager(drawId,drawName,prize){
+    managerDrawId=drawId; managerWinCount=0;
+    document.getElementById('modalDrawTitle').textContent=drawName.replace(/_/g,' ');
+    document.getElementById('modalDrawSub').textContent=prize||'Ödül belirtilmemiş';
+    document.getElementById('modalWinnersList').innerHTML='';
+    document.getElementById('managerOverlay').classList.add('open');
+    await refreshManagerStats();
+  }
+
+  async function refreshManagerStats(){
+    const allSnap=await getDocs(collection(db,`giveaways/${managerDrawId}/participants`));
+    const winSnap=await getDocs(query(collection(db,`giveaways/${managerDrawId}/participants`),where('isWinner','==',true)));
+    const eligible=allSnap.size-winSnap.size;
+    document.getElementById('mPartCount').textContent=allSnap.size;
+    document.getElementById('mWinCount').textContent=winSnap.size;
+    document.getElementById('mEligible').textContent=eligible;
+    managerParticipants=[];
+    allSnap.forEach(d=>{if(!d.data().isWinner) managerParticipants.push({id:d.id,...d.data()})});
+  }
+
+  document.getElementById('closeModal').addEventListener('click',()=>{
+    document.getElementById('managerOverlay').classList.remove('open');
+    loadMyDraws();
+  });
+  document.getElementById('managerOverlay').addEventListener('click',e=>{
+    if(e.target===document.getElementById('managerOverlay')){document.getElementById('managerOverlay').classList.remove('open');loadMyDraws();}
+  });
+
+  document.getElementById('drawWinnerBtn').addEventListener('click',async()=>{
+    if(!managerParticipants.length) return toast('Uygun katılımcı kalmadı!','error');
+    const idx=~~(Math.random()*managerParticipants.length);
+    const winner=managerParticipants[idx];
+    managerWinCount++;
+    await updateDoc(doc(db,`giveaways/${managerDrawId}/participants`,winner.id),{isWinner:true});
+    managerParticipants.splice(idx,1);
+    confetti();
+    await refreshManagerStats();
+    const el=document.createElement('div');
+    el.className='winner-card';
+    el.innerHTML=`
+      <div class="winner-badge">🏆 ${managerWinCount}. Kazanan</div>
+      <div class="winner-name">${winner.fullName}</div>
+      <div class="winner-detail">📬 ${winner.contact}</div>
+      ${winner.ytLink?`<div class="winner-detail" style="margin-top:6px"><a href="${winner.ytLink}" target="_blank">▶ YouTube Kanalı →</a></div>`:''}`;
+    document.getElementById('modalWinnersList').prepend(el);
+    toast(`🏆 Kazanan: ${winner.fullName}`,'success');
+  });
+}
+</script>
 </body>
 </html>
