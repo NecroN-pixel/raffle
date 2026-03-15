@@ -503,7 +503,7 @@ Raffle Ekibi</textarea>
   </div>
 </div>
 
-<script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
@@ -790,9 +790,15 @@ document.getElementById("delConfirm").addEventListener("click", async () => {
   if (!pendingDelId) return;
   document.getElementById("deleteOverlay").classList.remove("open");
   try {
+    // Delete all participants
     const ps = await getDocs(collection(db, "giveaways/" + pendingDelId + "/participants"));
     await Promise.all(ps.docs.map(d => deleteDoc(d.ref)));
+    // Delete the giveaway doc itself
     await deleteDoc(doc(db, "giveaways", pendingDelId));
+    // Clear ALL localStorage keys for this draw so same name can be rejoined
+    Object.keys(localStorage).forEach(k => {
+      if (k === "joined_" + pendingDelId) localStorage.removeItem(k);
+    });
     toast("Cekilis silindi");
     loadDashboard();
   } catch(e) { toast("Silme hatasi: " + e.message, "err"); }
@@ -848,6 +854,14 @@ document.getElementById("createBtn").addEventListener("click", async () => {
     document.getElementById("cLinkBox").classList.remove("hidden");
     toast("Cekilis yayinlandi!");
     boom();
+    // Reset form fields
+    document.getElementById("cDrawName").value = "";
+    document.getElementById("cEndTime").value = "";
+    document.getElementById("cDesc").value = "";
+    // Reset prize tiers to just 1
+    tierCount = 1;
+    const pt = document.getElementById("prizeTiers");
+    pt.innerHTML = '<div class="prize-tier tier-1"><div class="tier-badge">1</div><input class="tier-inp" placeholder="Birinci odul (ornek: iPhone 16 Pro Max)"></div>';
   } catch(e) { toast("Hata: " + e.message, "err"); }
   finally { btn.innerHTML = "Cekilisi Yayinla"; btn.disabled = false; }
 });
@@ -971,7 +985,7 @@ document.getElementById("drawBtn").addEventListener("click", async () => {
     const {ejsService,ejsTemplate,ejsKey,emailSubject,emailBody,drawName} = mgrData;
     if (ejsService && ejsTemplate && ejsKey && winner.email) {
       try {
-        emailjs.init(ejsKey);
+        emailjs.init({ publicKey: ejsKey });
         const body = (emailBody||"Merhaba {ad}, tebrikler! {cekilis} cekilisinde {odul} kazandiniz!")
           .replace(/{ad}/g, winner.name||winner.fullName||"Kazanan")
           .replace(/{odul}/g, prizeName)
@@ -980,14 +994,15 @@ document.getElementById("drawBtn").addEventListener("click", async () => {
           to_email: winner.email,
           to_name: winner.name||winner.fullName||"Kazanan",
           subject: emailSubject||"Tebrikler! Cekilisi Kazandiniz!",
-          message: body, prize: prizeName,
+          message: body,
+          prize: prizeName,
           draw_name: (drawName||mgrId).replace(/_/g," "),
           organizer_email: me ? (me.email||"") : "",
           organizer_name: me ? (me.displayName||me.email||"Organizator") : "Organizator"
         });
         emailSent = true;
         await updateDoc(doc(db,"giveaways",mgrId), {emailsSent: increment(1)});
-      } catch(err) { toast("E-posta gonderilemedi", "warn"); }
+      } catch(err) { toast("E-posta hatasi: " + (err.text||err.message||JSON.stringify(err)), "err"); }
     }
     const medals = ["🥇","🥈","🥉"];
     const wc = document.createElement("div"); wc.className = "winner-card";
