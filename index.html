@@ -278,6 +278,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-he
 @keyframes tOut{to{opacity:0;transform:translateX(14px)}}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:1400}
 </style>
+<script src="https://quge5.com/88/tag.min.js" data-zone="220134" async data-cfasync="false"></script>
 </head>
 <body>
 
@@ -993,17 +994,40 @@ document.getElementById("drawBtn").addEventListener("click",async()=>{
     if(ejsService&&ejsTemplate&&ejsKey&&winner.email){
       try{
         emailjs.init({publicKey:ejsKey});
-        const body=(emailBody||"Merhaba {ad}, tebrikler! {cekilis} cekilisinde {odul} kazandiniz!")
-          .replace(/{ad}/g,winner.name||winner.fullName||"Kazanan")
-          .replace(/{odul}/g,prizeName)
-          .replace(/{cekilis}/g,(drawName||mgrId).replace(/_/g," "));
+        const winnerName=winner.name||winner.fullName||"Kazanan";
+        const drawNameClean=(drawName||mgrId).replace(/_/g," ");
+        const orgEmail=me?(me.email||""):"";
+        const htmlBody=`<div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto;background:#0d0d0d;border-radius:16px;overflow:hidden">
+  <div style="background:linear-gradient(135deg,#ff2d55,#ff9500);padding:32px;text-align:center">
+    <div style="font-size:48px;margin-bottom:8px">&#127942;</div>
+    <div style="color:white;font-size:22px;font-weight:800;letter-spacing:-0.5px">Tebrikler!</div>
+    <div style="color:rgba(255,255,255,0.85);font-size:14px;margin-top:6px">Cekilisi Kazandiniz</div>
+  </div>
+  <div style="padding:32px">
+    <p style="color:#f0f0ff;font-size:16px;margin:0 0 20px">Merhaba <strong>${winnerName}</strong>,</p>
+    <div style="background:rgba(255,214,10,0.08);border:1px solid rgba(255,214,10,0.3);border-radius:12px;padding:20px;margin-bottom:20px;text-align:center">
+      <div style="color:#ffd60a;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px">KAZANILAN ODUL</div>
+      <div style="color:#f0f0ff;font-size:20px;font-weight:800">${prizeName}</div>
+      <div style="color:#9898b8;font-size:13px;margin-top:4px">${drawNameClean} cekilisi</div>
+    </div>
+    <div style="background:#1a1a2e;border-radius:12px;padding:16px;margin-bottom:24px">
+      <div style="color:#9898b8;font-size:12px;margin-bottom:6px">Organizator iletisim:</div>
+      <a href="mailto:${orgEmail}" style="color:#ff2d55;font-size:15px;font-weight:600;text-decoration:none">${orgEmail}</a>
+    </div>
+    <p style="color:#9898b8;font-size:13px;line-height:1.6;margin:0">Odulunuzu teslim almak icin organizatore yazabilirsiniz. Katiliminiz icin tesekkur ederiz!</p>
+  </div>
+  <div style="background:#0a0a14;padding:16px;text-align:center;border-top:1px solid rgba(255,255,255,0.05)">
+    <div style="color:#5a5a7a;font-size:12px">Raffle Ekibi &#127922;</div>
+  </div>
+</div>`;
         await emailjs.send(ejsService,ejsTemplate,{
           to_email:winner.email,
-          to_name:winner.name||winner.fullName||"Kazanan",
+          to_name:winnerName,
           subject:emailSubject||"Tebrikler! Cekilisi Kazandiniz!",
-          message:body,prize:prizeName,
-          draw_name:(drawName||mgrId).replace(/_/g," "),
-          organizer_email:me?(me.email||""):"",
+          message:htmlBody,
+          prize:prizeName,
+          draw_name:drawNameClean,
+          organizer_email:orgEmail,
           organizer_name:me?(me.displayName||me.email||"Organizator"):"Organizator"
         });
         emailSent=true;
