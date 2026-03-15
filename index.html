@@ -1076,12 +1076,12 @@ function runLiveSlot(){
   reel.innerHTML="";
   for(let i=0;i<COUNT;i++){const it=document.createElement("div");it.className="live-item";it.textContent=(i===WIN_POS)?(winner.name||winner.fullName||winner.email||"—"):names[~~(Math.random()*names.length)];reel.appendChild(it);}
   const totalScroll=(WIN_POS-1)*ITEM_H;const start=performance.now();
-  function eOut(t){return 1-Math.pow(1-t,4);}
-  (function frame(now){
-    const raw=Math.min((now-start)/DUR,1),y=eOut(raw)*totalScroll;
+  function liveEaseOut(t){return 1-Math.pow(1-t,4);}
+  (function liveFrame(now){
+    const raw=Math.min((now-start)/DUR,1),y=liveEaseOut(raw)*totalScroll;
     reel.style.transform="translateY(-"+y+"px)";bar.style.width=(raw*100)+"%";
     const ci=Math.round(y/ITEM_H)+1;reel.querySelectorAll(".live-item").forEach((el,i)=>el.classList.toggle("center",i===ci));
-    if(raw<1){requestAnimationFrame(frame);}
+    if(raw<1){requestAnimationFrame(liveFrame);}
     else{
       reel.style.transform="translateY(-"+totalScroll+"px)";
       reel.querySelectorAll(".live-item").forEach((el,i)=>el.classList.toggle("center",i===WIN_POS));
@@ -1091,18 +1091,16 @@ function runLiveSlot(){
         document.getElementById("liveWinnerPrize").textContent=prizeName;
         const rev=document.getElementById("liveReveal");rev.style.display="block";rev.style.animation="none";rev.offsetHeight;rev.style.animation="";
         boom();liveWinCount++;
-        // Save to DB
-        await updateDoc(doc(db,"giveaways/"+mgrId+"/participants",winner.id),{isWinner:true,wonPrize:prizeName,wonAt:new Date()});
-        await updateDoc(doc(db,"giveaways",mgrId),{winCount:increment(1)});
+        try{await updateDoc(doc(db,"giveaways/"+mgrId+"/participants",winner.id),{isWinner:true,wonPrize:prizeName,wonAt:new Date()});}catch(e){}
+        try{await updateDoc(doc(db,"giveaways",mgrId),{winCount:increment(1)});}catch(e){}
         mgrParts.splice(winIdx,1);
-        // Update prize UI in manager
-        const pw=document.getElementById("mpw_"+tierIdx);if(pw){pw.className="m-pw";pw.textContent=winner.name||winner.email||"—";}
-        // Email
-        const{ejsService,ejsTemplate,ejsKey,emailSubject,drawName}=mgrData;
+        const livePw=document.getElementById("mpw_"+tierIdx);if(livePw){livePw.className="m-pw";livePw.textContent=winner.name||winner.email||"—";}
+        const liveMgrData=mgrData;
+        const{ejsService,ejsTemplate,ejsKey,emailSubject,drawName}=liveMgrData;
         if(ejsService&&ejsTemplate&&ejsKey&&winner.email){
           try{
             emailjs.init({publicKey:ejsKey});
-            const wn=winner.name||winner.fullName||"Kazanan",dc=(drawName||mgrId).replace(/_/g," "),oe=me?(me.email||")":"";
+            const wn=winner.name||winner.fullName||"Kazanan",dc=(drawName||mgrId).replace(/_/g," "),oe=me?(me.email||""):"";
             const htmlBody=`<div style="font-family:system-ui,sans-serif;max-width:560px;margin:0 auto;background:#0d0d0d;border-radius:16px;overflow:hidden"><div style="background:linear-gradient(135deg,#ff2d55,#ff9500);padding:32px;text-align:center"><div style="font-size:48px;margin-bottom:8px">&#127942;</div><div style="color:white;font-size:22px;font-weight:800">Tebrikler!</div><div style="color:rgba(255,255,255,0.85);font-size:14px;margin-top:6px">Cekilisi Kazandiniz</div></div><div style="padding:32px"><p style="color:#f0f0ff;font-size:16px;margin:0 0 20px">Merhaba <strong>${wn}</strong>,</p><div style="background:rgba(255,214,10,0.08);border:1px solid rgba(255,214,10,0.3);border-radius:12px;padding:20px;margin-bottom:20px;text-align:center"><div style="color:#ffd60a;font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:8px">KAZANILAN ODUL</div><div style="color:#f0f0ff;font-size:20px;font-weight:800">${prizeName}</div><div style="color:#9898b8;font-size:13px;margin-top:4px">${dc} cekilisi</div></div><div style="background:#1a1a2e;border-radius:12px;padding:16px;margin-bottom:24px"><div style="color:#9898b8;font-size:12px;margin-bottom:6px">Organizator iletisim:</div><a href="mailto:${oe}" style="color:#ff2d55;font-size:15px;font-weight:600;text-decoration:none">${oe}</a></div><p style="color:#9898b8;font-size:13px;line-height:1.6;margin:0">Odulunuzu teslim almak icin organizatore yazabilirsiniz. Katiliminiz icin tesekkur ederiz!</p></div><div style="background:#0a0a14;padding:16px;text-align:center;border-top:1px solid rgba(255,255,255,0.05)"><div style="color:#5a5a7a;font-size:12px">Raffle Ekibi &#127922;</div></div></div>`;
             await emailjs.send(ejsService,ejsTemplate,{to_email:winner.email,to_name:wn,subject:emailSubject||"Tebrikler! Cekilisi Kazandiniz!",message:htmlBody,prize:prizeName,draw_name:dc,organizer_email:oe,organizer_name:me?(me.displayName||me.email||"Organizator"):"Organizator"});
             await updateDoc(doc(db,"giveaways",mgrId),{emailsSent:increment(1)});
@@ -1139,14 +1137,14 @@ function runSlot(participants,prizeName,onComplete){
   reel.innerHTML="";
   for(let i=0;i<COUNT;i++){const it=document.createElement("div");it.className="slot-item";it.textContent=(i===WIN_POS)?(winner.name||winner.fullName||winner.email||"—"):names[~~(Math.random()*names.length)];reel.appendChild(it);}
   const totalScroll=(WIN_POS-1)*ITEM_H;const start=performance.now();
-  function eOut(t){return 1-Math.pow(1-t,4);}
-  (function frame(now){
-    const raw=Math.min((now-start)/DUR,1),y=eOut(raw)*totalScroll;
+  function slotEaseOut(t){return 1-Math.pow(1-t,4);}
+  (function slotFrame(now){
+    const raw=Math.min((now-start)/DUR,1),y=slotEaseOut(raw)*totalScroll;
     reel.style.transform="translateY(-"+y+"px)";bar.style.width=(raw*100)+"%";
     const rem=Math.max(0,Math.ceil((DUR-(now-start))/1000));
     if(raw<1)status.textContent=rem>0?rem+" saniye...":"Hesaplaniyor...";
     const ci=Math.round(y/ITEM_H)+1;reel.querySelectorAll(".slot-item").forEach((el,i)=>el.classList.toggle("center",i===ci));
-    if(raw<1){requestAnimationFrame(frame);}
+    if(raw<1){requestAnimationFrame(slotFrame);}
     else{
       reel.style.transform="translateY(-"+totalScroll+"px)";
       reel.querySelectorAll(".slot-item").forEach((el,i)=>el.classList.toggle("center",i===WIN_POS));
