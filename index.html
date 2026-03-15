@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Raffle — Çekiliş Platformu</title>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;700;900&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;900&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -22,7 +22,6 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-he
 ::selection{background:rgba(255,45,85,0.3);color:white}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--b2);border-radius:4px}
 
-/* AMBIENT */
 #ambient{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .ao{position:absolute;border-radius:50%;filter:blur(120px);opacity:0.12;animation:aof 12s ease-in-out infinite}
 .ao1{width:700px;height:700px;background:var(--red);top:-200px;left:-200px}
@@ -31,28 +30,24 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-he
 @keyframes aof{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,-40px)}}
 .grid-lines{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 40%,transparent 100%)}
 
-/* NAV */
-#nav{position:fixed;top:0;left:0;right:0;z-index:900;height:60px;background:rgba(5,5,15,0.85);backdrop-filter:blur(40px) saturate(1.8);border-bottom:1px solid var(--b1);display:flex;align-items:center;padding:0 24px}
-.nav-logo{font-family:'Unbounded',sans-serif;font-weight:900;font-size:18px;background:var(--fire);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-right:32px;letter-spacing:-0.04em}
+#nav{position:fixed;top:0;left:0;right:0;z-index:900;height:60px;background:rgba(5,5,15,0.85);backdrop-filter:blur(40px);border-bottom:1px solid var(--b1);display:flex;align-items:center;padding:0 20px;gap:4px}
+.nav-logo{font-family:'Unbounded',sans-serif;font-weight:900;font-size:18px;background:var(--fire);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-right:24px;letter-spacing:-0.04em}
 .nav-tabs{display:flex;gap:2px;flex:1}
-.nav-tab{padding:7px 16px;border-radius:var(--r8);font-size:13px;font-weight:500;color:var(--t3);cursor:pointer;transition:all 0.2s;border:none;background:none;font-family:'Outfit',sans-serif;display:flex;align-items:center;gap:6px}
+.nav-tab{padding:7px 14px;border-radius:var(--r8);font-size:13px;font-weight:500;color:var(--t3);cursor:pointer;transition:all 0.2s;border:none;background:none;font-family:'Outfit',sans-serif;display:flex;align-items:center;gap:5px}
 .nav-tab:hover{color:var(--t2);background:var(--b1)}.nav-tab.active{color:var(--t1);background:var(--b2)}
-.nav-right{display:flex;gap:10px;align-items:center;margin-left:auto}
-.nav-avatar{width:34px;height:34px;border-radius:var(--r8);background:var(--fire);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;font-family:'Unbounded',sans-serif;box-shadow:0 4px 16px rgba(255,45,85,0.4)}
-.nav-name{font-size:13px;color:var(--t2);font-weight:500}
-@media(max-width:600px){.nav-name,.nav-tabs .nav-tab span{display:none}}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.nav-user{font-size:13px;color:var(--t2);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nav-avatar{width:32px;height:32px;border-radius:var(--r8);background:var(--fire);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;font-family:'Unbounded',sans-serif}
+@media(max-width:540px){.nav-tab span{display:none}.nav-user{display:none}}
 
-/* PAGES */
 .page{display:none;position:relative;z-index:1;padding-top:60px;min-height:100vh}.page.active{display:block}
 
-/* GLASS CARD */
-.gc{background:linear-gradient(160deg,rgba(255,255,255,0.06) 0%,rgba(255,255,255,0.02) 100%);border:1px solid var(--b1);border-radius:var(--r20);backdrop-filter:blur(20px);box-shadow:var(--sh2),inset 0 1px 0 rgba(255,255,255,0.06);transition:transform 0.2s,box-shadow 0.2s,border-color 0.2s;position:relative;overflow:hidden}
+.gc{background:linear-gradient(160deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02));border:1px solid var(--b1);border-radius:var(--r20);backdrop-filter:blur(20px);box-shadow:var(--sh2),inset 0 1px 0 rgba(255,255,255,0.06);transition:transform 0.2s,box-shadow 0.2s,border-color 0.2s;position:relative;overflow:hidden}
 .gc::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.12),transparent)}
-.gc.hov:hover{transform:translateY(-4px);box-shadow:var(--sh3),inset 0 1px 0 rgba(255,255,255,0.08);border-color:var(--b2)}
+.gc.hov:hover{transform:translateY(-4px);box-shadow:var(--sh3);border-color:var(--b2)}
 .tilt3d{transform-style:preserve-3d;will-change:transform}
 
-/* BUTTONS */
-.btn{border:none;cursor:pointer;border-radius:var(--r12);font-family:'Outfit',sans-serif;font-weight:600;font-size:14px;display:inline-flex;align-items:center;justify-content:center;gap:7px;transition:all 0.18s;position:relative;overflow:hidden;white-space:nowrap}
+.btn{border:none;cursor:pointer;border-radius:var(--r12);font-family:'Outfit',sans-serif;font-weight:600;font-size:14px;display:inline-flex;align-items:center;justify-content:center;gap:7px;transition:all 0.18s;white-space:nowrap}
 .btn:active{transform:scale(0.97)}
 .btn-fire{background:var(--fire);color:white;padding:12px 22px;box-shadow:0 8px 24px rgba(255,45,85,0.35)}
 .btn-fire:hover{box-shadow:0 12px 36px rgba(255,45,85,0.5);transform:translateY(-2px)}
@@ -65,7 +60,6 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-he
 .btn-sm{padding:8px 14px;font-size:12px;border-radius:var(--r8)}
 .btn-block{width:100%}
 
-/* FORMS */
 .field{margin-bottom:16px}
 .lbl{font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--t3);margin-bottom:7px;display:block}
 .inp{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--b1);border-radius:var(--r12);padding:13px 16px;color:var(--t1);font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s,box-shadow 0.2s,background 0.2s}
@@ -73,7 +67,6 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-he
 .inp::placeholder{color:var(--t3)}
 .inp-row{display:flex;gap:10px}
 
-/* Prize tiers */
 .prize-tier{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:var(--r12);padding:12px 14px;margin-bottom:8px}
 .tier-badge{width:30px;height:30px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;font-family:'Unbounded',sans-serif}
 .tier-1 .tier-badge{background:linear-gradient(135deg,#ffd60a,#ff9500);color:#1a0f00}
@@ -84,90 +77,96 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-he
 
 /* DISCOVER */
 #pageDiscover{padding-bottom:60px}
-.discover-hero{padding:60px 24px 40px;text-align:center;position:relative;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,45,85,0.15) 0%,transparent 70%)}
-.dh-eyebrow{display:inline-flex;align-items:center;gap:6px;background:rgba(255,45,85,0.1);border:1px solid rgba(255,45,85,0.2);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:var(--red);margin-bottom:20px;letter-spacing:0.04em}
-.live-dot{width:7px;height:7px;border-radius:50%;background:var(--red);animation:lp 1.5s ease-in-out infinite}
+.disc-hero{padding:60px 24px 40px;text-align:center;position:relative;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,45,85,0.15) 0%,transparent 70%)}
+.dh-eye{display:inline-flex;align-items:center;gap:6px;background:rgba(255,45,85,0.1);border:1px solid rgba(255,45,85,0.2);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:var(--red);margin-bottom:20px;letter-spacing:0.04em}
+.ldot{width:7px;height:7px;border-radius:50%;background:var(--red);animation:lp 1.5s ease-in-out infinite}
 @keyframes lp{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.5)}}
-.dh-title{font-family:'Unbounded',sans-serif;font-size:clamp(28px,5vw,52px);font-weight:900;line-height:1.05;letter-spacing:-0.04em;margin-bottom:12px}
-.dh-title .hl{background:var(--fire);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.dh-title{font-family:'Unbounded',sans-serif;font-size:clamp(26px,5vw,50px);font-weight:900;line-height:1.05;letter-spacing:-0.04em;margin-bottom:12px}
+.hl{background:var(--fire);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .dh-sub{color:var(--t2);font-size:16px;max-width:500px;margin:0 auto 32px}
 .dh-stats{display:flex;justify-content:center;gap:40px}
 .dhs-num{font-family:'Unbounded',sans-serif;font-size:24px;font-weight:700;background:var(--fire);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .dhs-lbl{font-size:11px;color:var(--t3);letter-spacing:0.08em;text-transform:uppercase;margin-top:2px}
-.discover-body{max-width:1100px;margin:0 auto;padding:32px 20px}
-.discover-filters{display:flex;gap:8px;margin-bottom:28px;flex-wrap:wrap}
+.disc-body{max-width:1100px;margin:0 auto;padding:32px 20px}
+.disc-filters{display:flex;gap:8px;margin-bottom:28px;flex-wrap:wrap}
 .chip{padding:7px 16px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--b1);background:var(--b1);color:var(--t3);transition:all 0.15s}
 .chip.active,.chip:hover{background:rgba(255,45,85,0.12);border-color:rgba(255,45,85,0.3);color:var(--t1)}
-.discover-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
-
-/* Public cards */
+.disc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:20px}
 .pg-card{padding:24px;animation:crise 0.4s ease both}
-@keyframes crise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-.pg-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
-.pg-creator{display:flex;align-items:center;gap:10px}
-.pg-ava{width:38px;height:38px;border-radius:var(--r8);background:var(--fire);display:flex;align-items:center;justify-content:center;font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;flex-shrink:0}
+@keyframes crise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.pg-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.pg-ava{width:36px;height:36px;border-radius:var(--r8);background:var(--fire);display:flex;align-items:center;justify-content:center;font-family:'Unbounded',sans-serif;font-size:12px;font-weight:700;flex-shrink:0}
 .pg-cname{font-weight:600;font-size:14px}.pg-date{font-size:11px;color:var(--t3);margin-top:2px}
 .badge{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:0.04em}
 .badge-live{background:rgba(52,199,89,0.12);color:var(--grn);border:1px solid rgba(52,199,89,0.25)}
 .badge-ended{background:rgba(255,45,85,0.1);color:var(--red);border:1px solid rgba(255,45,85,0.2)}
-.pg-name{font-family:'Unbounded',sans-serif;font-size:20px;font-weight:700;letter-spacing:-0.03em;line-height:1.2;margin-bottom:8px}
-.pg-prizes{display:flex;flex-direction:column;gap:5px;margin-bottom:16px}
+.pg-name{font-family:'Unbounded',sans-serif;font-size:19px;font-weight:700;letter-spacing:-0.03em;line-height:1.2;margin-bottom:8px}
+.pg-prizes{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
 .pg-prow{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--t2)}
 .pg-footer{display:flex;align-items:center;justify-content:space-between}
-.pg-part{font-size:13px;color:var(--t3)}.pg-part strong{color:var(--t1);font-weight:600}
+.pg-part{font-size:13px;color:var(--t3)}.pg-part strong{color:var(--t1)}
 
 /* DASHBOARD */
 #pageDashboard{padding-bottom:60px}
 .dash-wrap{max-width:1100px;margin:0 auto;padding:32px 20px}
 .dash-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:16px}
-.dash-greeting{font-family:'Unbounded',sans-serif;font-size:24px;font-weight:700;letter-spacing:-0.03em;line-height:1.2}
+.dash-greeting{font-family:'Unbounded',sans-serif;font-size:22px;font-weight:700;letter-spacing:-0.03em}
 .wave{display:inline-block;animation:wv 2s ease-in-out infinite}
 @keyframes wv{0%,100%{transform:rotate(0)}25%{transform:rotate(20deg)}75%{transform:rotate(-10deg)}}
 .dash-sub{font-size:14px;color:var(--t2);margin-top:4px}
-.dash-kpi{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:14px;margin-bottom:28px}
+.dash-kpi{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin-bottom:28px}
 .kpi-card{padding:20px}
 .kpi-icon{font-size:22px;margin-bottom:8px}
 .kpi-num{font-family:'Unbounded',sans-serif;font-size:28px;font-weight:700;background:var(--fire);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
 .kpi-lbl{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:0.08em;margin-top:4px}
-.dash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px}
-.my-draw-card{padding:22px;animation:crise 0.35s ease both}
-.mdc-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
-.mdc-name{font-family:'Unbounded',sans-serif;font-size:16px;font-weight:700;letter-spacing:-0.03em;line-height:1.2}
-.mdc-prize{font-size:12px;color:var(--t3);margin-top:3px}
-.mdc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.dash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px}
+.my-card{padding:22px;animation:crise 0.35s ease both}
+.mdc-name{font-family:'Unbounded',sans-serif;font-size:15px;font-weight:700;letter-spacing:-0.02em;margin-bottom:3px}
+.mdc-prize{font-size:12px;color:var(--t3);margin-bottom:14px}
+.mdc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
 .mdc-stat{background:rgba(255,255,255,0.03);border-radius:var(--r8);padding:10px;text-align:center;border:1px solid var(--b1)}
 .mdc-stat-num{font-family:'Unbounded',sans-serif;font-size:18px;font-weight:700;background:var(--fire);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .mdc-stat-lbl{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px}
-.mdc-footer{display:flex;gap:8px}.mdc-footer .btn{flex:1;font-size:13px;padding:10px}
+.mdc-footer{display:flex;gap:8px}
+.mdc-footer .btn{flex:1;font-size:13px;padding:10px}
 
 /* CREATE */
 #pageCreate{padding-bottom:60px}
 .create-wrap{max-width:680px;margin:0 auto;padding:40px 20px}
-.create-title{font-family:'Unbounded',sans-serif;font-size:26px;font-weight:700;letter-spacing:-0.03em;margin-bottom:6px}
-.create-sub{font-size:14px;color:var(--t2);margin-bottom:36px}
+.create-title{font-family:'Unbounded',sans-serif;font-size:24px;font-weight:700;letter-spacing:-0.03em;margin-bottom:6px}
+.create-sub{font-size:14px;color:var(--t2);margin-bottom:32px}
 .fsec{margin-bottom:28px}
-.fsec-title{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;color:var(--t2);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.fsec-title{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:700;color:var(--t2);margin-bottom:14px;display:flex;align-items:center;gap:8px}
 .fsec-title::after{content:'';flex:1;height:1px;background:var(--b1)}
 .prize-add-btn{width:100%;padding:12px;border-radius:var(--r12);background:rgba(255,255,255,0.02);border:1px dashed var(--b2);color:var(--t3);cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;transition:all 0.2s}
 .prize-add-btn:hover{border-color:rgba(255,45,85,0.3);color:var(--red);background:rgba(255,45,85,0.04)}
 
+/* Google login card inside create page */
+.login-required{text-align:center;padding:48px 32px}
+.lr-icon{font-size:48px;margin-bottom:16px}
+.lr-title{font-family:'Unbounded',sans-serif;font-size:20px;font-weight:700;margin-bottom:8px;letter-spacing:-0.02em}
+.lr-sub{color:var(--t2);font-size:14px;margin-bottom:28px;line-height:1.6}
+.btn-google{background:white;color:#111;border:none;border-radius:var(--r12);padding:14px 24px;font-size:15px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:10px;font-family:'Outfit',sans-serif;transition:all 0.22s;box-shadow:0 8px 28px rgba(0,0,0,0.4)}
+.btn-google:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(0,0,0,0.5)}
+.btn-google:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+
 /* PARTICIPANT */
 #pageParticipant{padding-bottom:60px}
 .pp-hero{padding:60px 24px 40px;text-align:center;background:radial-gradient(ellipse 80% 50% at 50% 100%,rgba(255,45,85,0.18) 0%,transparent 70%);border-bottom:1px solid var(--b1)}
-.pp-float-icon{font-size:64px;margin-bottom:20px;display:inline-block;filter:drop-shadow(0 12px 32px rgba(255,45,85,0.5));animation:ppf 3s ease-in-out infinite}
+.pp-icon{font-size:64px;margin-bottom:20px;display:inline-block;filter:drop-shadow(0 12px 32px rgba(255,45,85,0.5));animation:ppf 3s ease-in-out infinite}
 @keyframes ppf{0%,100%{transform:translateY(0) rotateY(0)}50%{transform:translateY(-12px) rotateY(15deg)}}
-.pp-draw-name{font-family:'Unbounded',sans-serif;font-size:clamp(22px,5vw,44px);font-weight:900;letter-spacing:-0.04em;line-height:1.1;margin-bottom:8px}
+.pp-draw-name{font-family:'Unbounded',sans-serif;font-size:clamp(22px,5vw,42px);font-weight:900;letter-spacing:-0.04em;line-height:1.1;margin-bottom:8px}
 .pp-draw-name span{background:var(--fire);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .pp-creator{font-size:14px;color:var(--t2)}
-.pp-body{max-width:560px;margin:0 auto;padding:36px 20px}
+.pp-body{max-width:540px;margin:0 auto;padding:32px 20px}
 .pp-prizes{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
-.pp-pc{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:var(--r16)}
+.pp-pc{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:var(--r16)}
 .pp-pc.first{background:linear-gradient(135deg,rgba(255,214,10,0.1),rgba(255,149,0,0.06));border:1px solid rgba(255,214,10,0.25)}
 .pp-pc.second{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1)}
 .pp-pc.third{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07)}
-.pp-medal{font-size:28px;flex-shrink:0}
+.pp-medal{font-size:26px;flex-shrink:0}
 .pp-plabel{font-size:11px;color:var(--t3);text-transform:uppercase;letter-spacing:0.08em}
-.pp-pval{font-weight:600;font-size:16px;margin-top:2px}
+.pp-pval{font-weight:600;font-size:15px;margin-top:2px}
 .first .pp-pval{background:var(--gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .pp-trust{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}
 .pp-ti{background:rgba(255,255,255,0.02);border:1px solid var(--b1);border-radius:var(--r12);padding:14px;text-align:center}
@@ -176,14 +175,14 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-he
 .pp-form{padding:28px}
 .pp-form-title{font-family:'Unbounded',sans-serif;font-size:18px;font-weight:700;margin-bottom:4px;letter-spacing:-0.02em}
 .pp-form-sub{font-size:13px;color:var(--t3);margin-bottom:22px}
-.pp-success{display:none;padding:40px;text-align:center;background:linear-gradient(135deg,rgba(52,199,89,0.1),rgba(50,215,75,0.05));border:1px solid rgba(52,199,89,0.25);border-radius:var(--r20);box-shadow:0 24px 64px rgba(52,199,89,0.15)}
-.pp-si{font-size:64px;display:block;margin-bottom:16px;animation:sp 0.6s cubic-bezier(0.34,1.56,0.64,1)}
+.pp-success{display:none;padding:40px;text-align:center;background:linear-gradient(135deg,rgba(52,199,89,0.1),rgba(50,215,75,0.05));border:1px solid rgba(52,199,89,0.25);border-radius:var(--r20)}
+.pp-si{font-size:60px;display:block;margin-bottom:16px;animation:sp 0.6s cubic-bezier(0.34,1.56,0.64,1)}
 @keyframes sp{from{transform:scale(0) rotate(-180deg)}to{transform:scale(1) rotate(0)}}
-.pp-st{font-family:'Unbounded',sans-serif;font-size:24px;font-weight:700;color:var(--grn);margin-bottom:8px}
+.pp-st{font-family:'Unbounded',sans-serif;font-size:22px;font-weight:700;color:var(--grn);margin-bottom:8px}
 .pp-ss{color:var(--t2);font-size:14px;line-height:1.6}
 .pp-already{display:none;padding:32px;text-align:center;background:rgba(255,45,85,0.06);border:1px solid rgba(255,45,85,0.18);border-radius:var(--r20)}
 
-/* OVERLAYS */
+/* MANAGER MODAL */
 .overlay{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.8);backdrop-filter:blur(16px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.25s}
 .overlay.open{opacity:1;pointer-events:all}
 .modal{background:linear-gradient(160deg,var(--s2),var(--bg));border:1px solid var(--b2);border-radius:var(--r24);padding:32px;width:100%;max-width:620px;max-height:88vh;overflow-y:auto;transform:scale(0.88) translateY(30px);transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 48px 96px rgba(0,0,0,0.9),inset 0 1px 0 rgba(255,255,255,0.06)}
@@ -201,62 +200,53 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-he
 .m-prow{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.03);border:1px solid var(--b1);border-radius:var(--r12);padding:12px 14px}
 .m-pleft{display:flex;align-items:center;gap:10px;font-size:14px}
 .m-pw{font-size:13px;color:var(--grn);font-weight:500}.m-pw.empty{color:var(--t3)}
-.winner-card{background:linear-gradient(135deg,rgba(52,199,89,0.08),rgba(50,215,75,0.04));border:1px solid rgba(52,199,89,0.2);border-radius:var(--r16);padding:18px;margin-bottom:12px;animation:wr 0.6s cubic-bezier(0.34,1.56,0.64,1) both;box-shadow:0 8px 32px rgba(52,199,89,0.12)}
+.winner-card{background:linear-gradient(135deg,rgba(52,199,89,0.08),rgba(50,215,75,0.04));border:1px solid rgba(52,199,89,0.2);border-radius:var(--r16);padding:18px;margin-bottom:12px;animation:wr 0.6s cubic-bezier(0.34,1.56,0.64,1) both}
 @keyframes wr{from{opacity:0;transform:scale(0.7) rotateX(25deg)}to{opacity:1;transform:scale(1) rotateX(0)}}
 .wc-rank{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--grn);margin-bottom:6px}
 .wc-name{font-family:'Unbounded',sans-serif;font-size:18px;font-weight:700}
 .wc-email{font-size:13px;color:var(--t2);margin-top:4px}
-.wc-email a{color:var(--blu);text-decoration:none}
 .wc-prize{display:inline-block;margin-top:8px;padding:4px 10px;background:rgba(255,214,10,0.12);border:1px solid rgba(255,214,10,0.25);border-radius:8px;font-size:12px;color:var(--yel);font-weight:600}
 .wc-sent{margin-top:8px;font-size:12px;color:var(--grn)}
 
-/* ════ SLOT MACHINE ════ */
+/* SLOT MACHINE */
 #slotOverlay{position:fixed;inset:0;z-index:1500;background:rgba(0,0,0,0.95);backdrop-filter:blur(32px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.35s}
 #slotOverlay.open{opacity:1;pointer-events:all}
-.slot-box{text-align:center;background:linear-gradient(160deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02));border:1px solid var(--b2);border-radius:32px;padding:48px 52px;max-width:520px;width:90%;box-shadow:0 64px 128px rgba(0,0,0,0.95),inset 0 1px 0 rgba(255,255,255,0.1);position:relative;overflow:hidden}
+.slot-box{text-align:center;background:linear-gradient(160deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02));border:1px solid var(--b2);border-radius:28px;padding:40px 44px;max-width:500px;width:90%;box-shadow:0 64px 128px rgba(0,0,0,0.95),inset 0 1px 0 rgba(255,255,255,0.1);position:relative;overflow:hidden}
 .slot-scan{position:absolute;top:0;left:0;right:0;height:2px;background:var(--fire);animation:scan 1.2s linear infinite}
 @keyframes scan{0%{transform:scaleX(0);transform-origin:left}49%{transform:scaleX(1);transform-origin:left}50%{transform:scaleX(1);transform-origin:right}100%{transform:scaleX(0);transform-origin:right}}
-.slot-eyebrow{font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--t3);margin-bottom:8px}
-.slot-prize-label{font-size:14px;color:var(--yel);font-weight:600;margin-bottom:20px;min-height:20px}
-.slot-window{height:90px;overflow:hidden;position:relative;border-radius:var(--r16);background:rgba(0,0,0,0.6);border:1px solid var(--b2);margin-bottom:20px}
-.slot-window::before,.slot-window::after{content:'';position:absolute;left:0;right:0;height:26px;z-index:2;pointer-events:none}
+.slot-eyebrow{font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--t3);margin-bottom:6px}
+.slot-prize-label{font-size:14px;color:var(--yel);font-weight:600;margin-bottom:18px;min-height:20px}
+.slot-window{height:90px;overflow:hidden;position:relative;border-radius:var(--r16);background:rgba(0,0,0,0.6);border:1px solid var(--b2);margin-bottom:18px}
+.slot-window::before,.slot-window::after{content:'';position:absolute;left:0;right:0;height:24px;z-index:2;pointer-events:none}
 .slot-window::before{top:0;background:linear-gradient(to bottom,rgba(0,0,0,0.85),transparent)}
 .slot-window::after{bottom:0;background:linear-gradient(to top,rgba(0,0,0,0.85),transparent)}
 .slot-cursor{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);height:44px;z-index:1;border-top:1px solid rgba(255,45,85,0.6);border-bottom:1px solid rgba(255,45,85,0.6);background:rgba(255,45,85,0.07);pointer-events:none}
 .slot-reel{display:flex;flex-direction:column;align-items:center}
-.slot-item{height:44px;line-height:44px;font-size:15px;font-weight:600;width:100%;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 20px;color:var(--t2);flex-shrink:0;transition:color 0.1s}
+.slot-item{height:44px;line-height:44px;font-size:14px;font-weight:600;width:100%;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 20px;color:var(--t2);flex-shrink:0}
 .slot-item.center{color:var(--t1);font-size:17px;font-weight:800}
-.slot-progress{height:4px;background:rgba(255,255,255,0.06);border-radius:4px;margin-bottom:20px;overflow:hidden}
-.slot-progress-bar{height:100%;background:var(--fire);border-radius:4px;width:0%;transition:width 0.1s linear}
-.slot-status{font-size:14px;color:var(--t2);min-height:20px;margin-bottom:20px}
+.slot-progress{height:4px;background:rgba(255,255,255,0.06);border-radius:4px;margin-bottom:16px;overflow:hidden}
+.slot-bar{height:100%;background:var(--fire);border-radius:4px;width:0%;transition:width 0.1s linear}
+.slot-status{font-size:13px;color:var(--t2);min-height:18px;margin-bottom:18px}
 .slot-reveal{display:none}
-.slot-reveal.show{display:block;animation:revealIn 0.7s cubic-bezier(0.34,1.56,0.64,1) both}
-@keyframes revealIn{from{opacity:0;transform:scale(0.6) rotateY(90deg)}to{opacity:1;transform:scale(1) rotateY(0)}}
-.slot-trophy{font-size:56px;display:block;margin-bottom:12px;animation:trophyBounce 0.8s cubic-bezier(0.34,1.56,0.64,1) 0.3s both}
-@keyframes trophyBounce{from{transform:scale(0) rotate(-20deg)}to{transform:scale(1) rotate(0)}}
-.slot-winner-name{font-family:'Unbounded',sans-serif;font-size:26px;font-weight:900;letter-spacing:-0.04em;line-height:1.1;margin:8px 0 5px;background:var(--gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.slot-reveal.show{display:block;animation:revIn 0.7s cubic-bezier(0.34,1.56,0.64,1) both}
+@keyframes revIn{from{opacity:0;transform:scale(0.6) rotateY(90deg)}to{opacity:1;transform:scale(1) rotateY(0)}}
+.slot-trophy{font-size:52px;display:block;margin-bottom:12px;animation:tb 0.8s cubic-bezier(0.34,1.56,0.64,1) 0.3s both}
+@keyframes tb{from{transform:scale(0) rotate(-20deg)}to{transform:scale(1) rotate(0)}}
+.slot-winner-name{font-family:'Unbounded',sans-serif;font-size:24px;font-weight:900;letter-spacing:-0.04em;line-height:1.1;margin:8px 0 5px;background:var(--gold);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .slot-winner-email{font-size:14px;color:var(--t2);margin-bottom:14px}
-.slot-prize-won{display:inline-block;padding:8px 22px;border-radius:20px;background:linear-gradient(135deg,rgba(255,214,10,0.15),rgba(255,149,0,0.1));border:1px solid rgba(255,214,10,0.3);font-weight:700;font-size:14px;color:var(--yel);margin-bottom:24px}
-.slot-close-btn{padding:12px 32px;font-size:15px}
+.slot-prize-won{display:inline-block;padding:8px 22px;border-radius:20px;background:linear-gradient(135deg,rgba(255,214,10,0.15),rgba(255,149,0,0.1));border:1px solid rgba(255,214,10,0.3);font-weight:700;font-size:14px;color:var(--yel);margin-bottom:22px}
 
-/* LOGIN */
-#pageLogin{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:80px 20px;position:relative;z-index:1}
-.login-box{max-width:420px;width:100%;padding:52px 44px;text-align:center;animation:loginFloat 5s ease-in-out infinite;background:linear-gradient(160deg,rgba(255,255,255,0.07) 0%,rgba(255,255,255,0.02) 100%)}
-@keyframes loginFloat{0%,100%{transform:translateY(0) rotateX(0) rotateY(0)}33%{transform:translateY(-12px) rotateX(1.5deg) rotateY(2deg)}66%{transform:translateY(-6px) rotateX(-0.8deg) rotateY(-1deg)}}
-.login-icon{font-size:56px;display:block;margin-bottom:20px;animation:is 8s ease-in-out infinite}
-@keyframes is{0%,100%{transform:rotateY(0)}50%{transform:rotateY(20deg) rotateX(8deg) scale(1.05)}}
-.login-title{font-family:'Unbounded',sans-serif;font-size:30px;font-weight:900;letter-spacing:-0.04em;margin-bottom:10px}
-.login-sub{color:var(--t2);font-size:15px;line-height:1.65;margin-bottom:36px}
-.btn-google{width:100%;background:white;color:#111;border:none;border-radius:var(--r16);padding:16px 22px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;font-family:'Outfit',sans-serif;transition:all 0.22s;box-shadow:0 8px 28px rgba(0,0,0,0.5)}
-.btn-google:hover{transform:translateY(-3px);box-shadow:0 16px 48px rgba(0,0,0,0.6)}
+/* DELETE MODAL */
+.del-icon{font-size:48px;margin-bottom:16px}
+.del-title{font-family:'Unbounded',sans-serif;font-size:20px;font-weight:700;margin-bottom:8px}
+.del-sub{color:var(--t2);font-size:14px;margin-bottom:24px;line-height:1.6}
 
-/* MISC */
 .divider{height:1px;background:var(--b1);margin:20px 0}
 .empty-state{text-align:center;padding:60px 20px;grid-column:1/-1}
-.empty-icon{font-size:52px;margin-bottom:14px;opacity:0.4}
+.empty-icon{font-size:48px;margin-bottom:14px;opacity:0.4}
 .empty-text{color:var(--t3);font-size:15px;line-height:1.6}
 .hidden{display:none!important}
-.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,0.2);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;display:inline-block}
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,0.25);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;display:inline-block;vertical-align:middle}
 @keyframes spin{to{transform:rotate(360deg)}}
 #toasts{position:fixed;bottom:24px;right:24px;z-index:2000;display:flex;flex-direction:column;gap:9px;align-items:flex-end;pointer-events:none}
 .toast{background:#13132a;border:1px solid var(--b2);border-radius:var(--r12);padding:13px 18px;font-size:14px;box-shadow:0 16px 48px rgba(0,0,0,0.7);animation:tIn 0.38s cubic-bezier(0.34,1.56,0.64,1) both;max-width:320px;pointer-events:all}
@@ -274,54 +264,36 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-he
 <div id="toasts"></div>
 
 <!-- NAV -->
-<nav id="nav" class="hidden">
+<nav id="nav">
   <div class="nav-logo">RAFFLE</div>
   <div class="nav-tabs">
-    <button class="nav-tab" data-page="pageDiscover">🔍 <span>Keşfet</span></button>
+    <button class="nav-tab active" data-page="pageDiscover">🔍 <span>Keşfet</span></button>
     <button class="nav-tab" data-page="pageDashboard">📊 <span>Panelim</span></button>
     <button class="nav-tab" data-page="pageCreate">✨ <span>Oluştur</span></button>
   </div>
-  <div class="nav-right">
-    <span class="nav-name" id="navName"></span>
-    <div class="nav-avatar" id="navAvatar">?</div>
-    <button class="btn btn-ghost btn-sm" id="navLogout">Çıkış</button>
-  </div>
+  <div class="nav-right" id="navRight"></div>
 </nav>
 
-<!-- LOGIN -->
-<div id="pageLogin" class="page active">
-  <div class="gc login-box">
-    <span class="login-icon">🎲</span>
-    <div class="login-title">RAFFLE</div>
-    <div class="login-sub">Çekiliş oluştur, keşfet ve kazananı şeffaf biçimde belirle. Ödül bildirimi otomatik.</div>
-    <button class="btn-google" id="loginBtn">
-      <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-      Google ile Giriş Yap
-    </button>
-    <div id="loginError" style="display:none;margin-top:16px;padding:12px 16px;background:rgba(255,45,85,0.1);border:1px solid rgba(255,45,85,0.3);border-radius:12px;font-size:13px;color:#ff6b80;line-height:1.5"></div>
-  </div>
-</div>
-
 <!-- DISCOVER -->
-<div id="pageDiscover" class="page">
-  <div class="discover-hero">
-    <div class="dh-eyebrow"><div class="live-dot"></div> CANLI ÇEKİLİŞLER</div>
-    <div class="dh-title">Kazanmaya Hazır mısın?<br><span class="hl">Keşfet & Katıl</span></div>
-    <div class="dh-sub">Aktif çekilişleri keşfet, e-postan ile katıl, kazanırsan otomatik bildirim al.</div>
+<div id="pageDiscover" class="page active">
+  <div class="disc-hero">
+    <div class="dh-eye"><div class="ldot"></div> CANLI CEKİLİSLER</div>
+    <div class="dh-title">Kazanmaya Hazir misin?<br><span class="hl">Kesfet & Katil</span></div>
+    <div class="dh-sub">Aktif cekilisleri kesfet, e-postan ile katil, kazanirsan otomatik bildirim al.</div>
     <div class="dh-stats">
-      <div><div class="dhs-num" id="dStatDraws">0</div><div class="dhs-lbl">Aktif Çekiliş</div></div>
-      <div><div class="dhs-num" id="dStatParts">0</div><div class="dhs-lbl">Toplam Katılım</div></div>
+      <div><div class="dhs-num" id="dStatDraws">0</div><div class="dhs-lbl">Aktif Cekilis</div></div>
+      <div><div class="dhs-num" id="dStatParts">0</div><div class="dhs-lbl">Toplam Katilim</div></div>
       <div><div class="dhs-num" id="dStatWins">0</div><div class="dhs-lbl">Kazanan</div></div>
     </div>
   </div>
-  <div class="discover-body">
-    <div class="discover-filters">
+  <div class="disc-body">
+    <div class="disc-filters">
       <div class="chip active" data-filter="all">Tümü</div>
       <div class="chip" data-filter="live">Aktif</div>
       <div class="chip" data-filter="ended">Bitti</div>
     </div>
-    <div class="discover-grid" id="discoverGrid">
-      <div class="empty-state"><span class="spinner"></span></div>
+    <div class="disc-grid" id="discoverGrid">
+      <div class="empty-state" style="grid-column:1/-1"><span class="spinner"></span></div>
     </div>
   </div>
 </div>
@@ -330,75 +302,86 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-he
 <div id="pageDashboard" class="page">
   <div class="dash-wrap">
     <div class="dash-header">
-      <div><div class="dash-greeting"><span class="wave">👋</span> Merhaba, <span id="dashName">—</span></div><div class="dash-sub">Çekilişlerini buradan yönet</div></div>
+      <div><div class="dash-greeting"><span class="wave">👋</span> Merhaba, <span id="dashName">—</span></div><div class="dash-sub">Cekilislerini buradan yonet</div></div>
       <button class="btn btn-ghost btn-sm" id="dashRefreshBtn">🔄 Yenile</button>
     </div>
     <div class="dash-kpi">
-      <div class="gc kpi-card tilt3d"><div class="kpi-icon">🎲</div><div class="kpi-num" id="kpiDraws">0</div><div class="kpi-lbl">Çekiliş</div></div>
-      <div class="gc kpi-card tilt3d"><div class="kpi-icon">👥</div><div class="kpi-num" id="kpiParts">0</div><div class="kpi-lbl">Katılımcı</div></div>
+      <div class="gc kpi-card tilt3d"><div class="kpi-icon">🎲</div><div class="kpi-num" id="kpiDraws">0</div><div class="kpi-lbl">Cekilis</div></div>
+      <div class="gc kpi-card tilt3d"><div class="kpi-icon">👥</div><div class="kpi-num" id="kpiParts">0</div><div class="kpi-lbl">Katilimci</div></div>
       <div class="gc kpi-card tilt3d"><div class="kpi-icon">🏆</div><div class="kpi-num" id="kpiWins">0</div><div class="kpi-lbl">Kazanan</div></div>
       <div class="gc kpi-card tilt3d"><div class="kpi-icon">📧</div><div class="kpi-num" id="kpiEmails">0</div><div class="kpi-lbl">E-posta</div></div>
     </div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-      <div style="font-family:'Unbounded',sans-serif;font-size:16px;font-weight:700">Çekilişlerim</div>
+      <div style="font-family:'Unbounded',sans-serif;font-size:15px;font-weight:700">Cekilislerim</div>
     </div>
-    <div class="dash-grid" id="dashGrid"><div class="empty-state"><span class="spinner"></span></div></div>
+    <div class="dash-grid" id="dashGrid"><div class="empty-state" style="grid-column:1/-1"><span class="spinner"></span></div></div>
   </div>
 </div>
 
 <!-- CREATE -->
 <div id="pageCreate" class="page">
   <div class="create-wrap">
-    <div class="create-title">Yeni Çekiliş</div>
-    <div class="create-sub">Ödülleri, açıklamayı ve bitiş tarihini belirle.</div>
-    <div class="fsec">
-      <div class="fsec-title">Temel Bilgiler</div>
-      <div class="field"><label class="lbl">Çekiliş Adı</label><input class="inp" id="cDrawName" placeholder="iPhone 16 Çekilişi"></div>
-      <div class="inp-row">
-        <div class="field" style="flex:1"><label class="lbl">Bitiş Tarihi (İsteğe Bağlı)</label><input class="inp" type="datetime-local" id="cEndTime"></div>
-      </div>
-      <div class="field"><label class="lbl">Açıklama</label><input class="inp" id="cDesc" placeholder="Bu çekilişe katılmak için sadece e-postanı gir!"></div>
+    <!-- Login required card (shown when not logged in) -->
+    <div class="gc login-required" id="loginRequired">
+      <div class="lr-icon">🔐</div>
+      <div class="lr-title">Giris Yapman Gerekiyor</div>
+      <div class="lr-sub">Cekilis olusturmak icin Google hesabinla giris yap. Ucretsiz ve hizli!</div>
+      <button class="btn-google" id="loginBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Google ile Giris Yap
+      </button>
+      <div id="loginError" style="display:none;margin-top:14px;padding:10px 14px;background:rgba(255,45,85,0.1);border:1px solid rgba(255,45,85,0.3);border-radius:10px;font-size:13px;color:#ff6b80;line-height:1.5"></div>
     </div>
-    <div class="fsec">
-      <div class="fsec-title">Ödüller</div>
-      <div id="prizeTiers">
-        <div class="prize-tier tier-1"><div class="tier-badge">1</div><input class="tier-inp" placeholder="Birinci ödül (örn: iPhone 16 Pro Max)"></div>
-      </div>
-      <button class="prize-add-btn" id="addPrizeBtn">+ Ödül Ekle (2., 3. sıra…)</button>
-    </div>
-    <div class="fsec">
-      <div class="fsec-title">Kazanan E-posta Şablonu</div>
-      <div class="field"><label class="lbl">E-posta Konusu</label><input class="inp" id="cEmailSubject" value="🏆 Tebrikler! Çekilişi Kazandınız!"></div>
-      <div class="field">
-        <label class="lbl">Mesaj — <span style="color:var(--red)">{ad}</span> <span style="color:var(--red)">{odul}</span> <span style="color:var(--red)">{cekilis}</span> kullanabilirsin</label>
-        <textarea class="inp" id="cEmailBody" rows="7" style="resize:vertical">Merhaba {ad},
 
-🎉 Tebrikler! {cekilis} çekilişinde {odul} kazandınız!
-
-Ödülünüzü teslim almak için bu mesajı yanıtlayabilir veya sosyal medyamızdan bize ulaşabilirsiniz.
-
-Çekilişimize katıldığınız için teşekkür ederiz. 
-Güzel günler dileriz!
-
-Raffle Ekibi 🎲</textarea>
+    <!-- Actual create form (shown when logged in) -->
+    <div id="createForm" class="hidden">
+      <div class="create-title">Yeni Cekilis</div>
+      <div class="create-sub">Odulleri, aciklamayi ve bitis tarihini belirle.</div>
+      <div class="fsec">
+        <div class="fsec-title">Temel Bilgiler</div>
+        <div class="field"><label class="lbl">Cekilis Adi</label><input class="inp" id="cDrawName" placeholder="iPhone 16 Cekilisi"></div>
+        <div class="field"><label class="lbl">Bitis Tarihi (Istege Bagli)</label><input class="inp" type="datetime-local" id="cEndTime"></div>
+        <div class="field"><label class="lbl">Aciklama</label><input class="inp" id="cDesc" placeholder="Bu cekilise katilmak icin sadece e-postani gir!"></div>
       </div>
-    </div>
-    <div class="fsec">
-      <div class="fsec-title">EmailJS (Otomatik E-posta)</div>
-      <div style="background:rgba(255,149,0,0.06);border:1px solid rgba(255,149,0,0.2);border-radius:var(--r12);padding:14px 16px;font-size:13px;color:var(--t2);margin-bottom:14px;line-height:1.6">
-        💡 <strong style="color:var(--ora)">emailjs.com</strong>'dan ücretsiz hesap → Service + Template + Public Key. Boş bırakılırsa e-posta atlanır, kazanan yine seçilir.
+      <div class="fsec">
+        <div class="fsec-title">Oduller</div>
+        <div id="prizeTiers">
+          <div class="prize-tier tier-1"><div class="tier-badge">1</div><input class="tier-inp" placeholder="Birinci odul (ornek: iPhone 16 Pro Max)"></div>
+        </div>
+        <button class="prize-add-btn" id="addPrizeBtn">+ Odul Ekle (2., 3. sira)</button>
       </div>
-      <div class="inp-row">
-        <div class="field" style="flex:1"><label class="lbl">Service ID</label><input class="inp" id="cEjsService" placeholder="service_xxxxxxx"></div>
-        <div class="field" style="flex:1"><label class="lbl">Template ID</label><input class="inp" id="cEjsTemplate" placeholder="template_xxxxxxx"></div>
+      <div class="fsec">
+        <div class="fsec-title">Kazanan E-posta Sablonu</div>
+        <div class="field"><label class="lbl">Konu</label><input class="inp" id="cEmailSubject" value="Tebrikler! Cekilisi Kazandiniz!"></div>
+        <div class="field">
+          <label class="lbl">Mesaj — {ad} {odul} {cekilis} kullanabilirsin</label>
+          <textarea class="inp" id="cEmailBody" rows="6" style="resize:vertical">Merhaba {ad},
+
+Tebrikler! {cekilis} cekilisinde {odul} kazandiniz!
+
+Odulunuzu teslim almak icin bu mesaji yanitlayabilirsiniz.
+
+Katiliminiz icin tesekkur ederiz!
+Raffle Ekibi</textarea>
+        </div>
       </div>
-      <div class="field"><label class="lbl">Public Key</label><input class="inp" id="cEjsKey" placeholder="xxxxxxxxxxxxxxxxxx"></div>
-    </div>
-    <button class="btn btn-fire btn-block" style="font-size:16px;padding:16px" id="createBtn">✨ Çekilişi Yayınla</button>
-    <div id="cLinkBox" class="hidden" style="margin-top:16px">
-      <div style="display:flex;align-items:center;gap:10px;background:rgba(52,199,89,0.06);border:1px solid rgba(52,199,89,0.2);border-radius:var(--r12);padding:14px 16px">
-        <div style="font-size:12px;color:#34c759;font-family:monospace;flex:1;word-break:break-all" id="cLinkText">—</div>
-        <button class="btn btn-ghost btn-sm" id="cCopyBtn">📋 Kopyala</button>
+      <div class="fsec">
+        <div class="fsec-title">EmailJS (Otomatik E-posta)</div>
+        <div style="background:rgba(255,149,0,0.06);border:1px solid rgba(255,149,0,0.2);border-radius:var(--r12);padding:12px 14px;font-size:13px;color:var(--t2);margin-bottom:14px;line-height:1.6">
+          emailjs.com ucretsiz hesap ac, Service + Template + Public Key gir.
+        </div>
+        <div class="inp-row">
+          <div class="field" style="flex:1"><label class="lbl">Service ID</label><input class="inp" id="cEjsService" placeholder="service_xxx"></div>
+          <div class="field" style="flex:1"><label class="lbl">Template ID</label><input class="inp" id="cEjsTemplate" placeholder="template_xxx"></div>
+        </div>
+        <div class="field"><label class="lbl">Public Key</label><input class="inp" id="cEjsKey" placeholder="xxxxxxxxxxxx"></div>
+      </div>
+      <button class="btn btn-fire btn-block" style="font-size:16px;padding:16px" id="createBtn">Cekilisi Yayinla</button>
+      <div id="cLinkBox" class="hidden" style="margin-top:16px">
+        <div style="display:flex;align-items:center;gap:10px;background:rgba(52,199,89,0.06);border:1px solid rgba(52,199,89,0.2);border-radius:var(--r12);padding:14px 16px">
+          <div style="font-size:12px;color:#34c759;font-family:monospace;flex:1;word-break:break-all" id="cLinkText"></div>
+          <button class="btn btn-ghost btn-sm" id="cCopyBtn">Kopyala</button>
+        </div>
       </div>
     </div>
   </div>
@@ -407,34 +390,34 @@ Raffle Ekibi 🎲</textarea>
 <!-- PARTICIPANT -->
 <div id="pageParticipant" class="page">
   <div class="pp-hero">
-    <div class="pp-float-icon">🎁</div>
-    <div class="pp-draw-name" id="ppTitle">Çekiliş <span>Vakti</span></div>
+    <div class="pp-icon">🎁</div>
+    <div class="pp-draw-name" id="ppTitle">Cekilis <span>Vakti</span></div>
     <div class="pp-creator" id="ppCreator"></div>
   </div>
   <div class="pp-body">
     <div class="pp-prizes hidden" id="ppPrizes"></div>
     <div class="pp-trust">
-      <div class="pp-ti"><div class="pp-tnum" id="ppCount">—</div><div class="pp-tlbl">Katılımcı</div></div>
-      <div class="pp-ti"><div class="pp-tnum">%100</div><div class="pp-tlbl">Şeffaf</div></div>
-      <div class="pp-ti"><div class="pp-tnum" id="ppTime">⏳</div><div class="pp-tlbl">Kalan</div></div>
+      <div class="pp-ti"><div class="pp-tnum" id="ppCount">0</div><div class="pp-tlbl">Katilimci</div></div>
+      <div class="pp-ti"><div class="pp-tnum">%100</div><div class="pp-tlbl">Seffaf</div></div>
+      <div class="pp-ti"><div class="pp-tnum" id="ppTime">—</div><div class="pp-tlbl">Kalan</div></div>
     </div>
     <div class="gc pp-form" id="ppForm">
-      <div class="pp-form-title">Çekilişe Katıl</div>
-      <div class="pp-form-sub">Sadece e-postanı gir. Kazanırsan otomatik bildirim alırsın.</div>
-      <div class="field"><label class="lbl">Ad Soyad</label><input class="inp" id="ppName" placeholder="Ahmet Yılmaz"></div>
-      <div class="field"><label class="lbl">E-posta ✱ Zorunlu</label><input class="inp" type="email" id="ppEmail" placeholder="ahmet@gmail.com"></div>
-      <div class="field"><label class="lbl">Instagram (İsteğe Bağlı)</label><input class="inp" id="ppInsta" placeholder="@kullanici"></div>
-      <button class="btn btn-fire btn-block" style="padding:14px;font-size:15px;margin-top:4px" id="ppJoinBtn">🚀 Hemen Katıl</button>
+      <div class="pp-form-title">Cekilise Katil</div>
+      <div class="pp-form-sub">Sadece e-postani gir. Kazanirsan otomatik bildirim alirsin.</div>
+      <div class="field"><label class="lbl">Ad Soyad</label><input class="inp" id="ppName" placeholder="Ahmet Yilmaz"></div>
+      <div class="field"><label class="lbl">E-posta (Zorunlu)</label><input class="inp" type="email" id="ppEmail" placeholder="ahmet@gmail.com"></div>
+      <div class="field"><label class="lbl">Instagram (Istege Bagli)</label><input class="inp" id="ppInsta" placeholder="@kullanici"></div>
+      <button class="btn btn-fire btn-block" style="padding:14px;font-size:15px;margin-top:4px" id="ppJoinBtn">Hemen Katil</button>
     </div>
     <div class="pp-success" id="ppSuccess">
       <span class="pp-si">🎉</span>
-      <div class="pp-st">Katılımın Alındı!</div>
-      <div class="pp-ss">Çekiliş sonucu açıklandığında e-postana otomatik bildirim gelecek.<br><br>Bol şans! 🍀</div>
+      <div class="pp-st">Katilimin Alindi!</div>
+      <div class="pp-ss">Cekilis sonucu aciklandiginda e-postana otomatik bildirim gelecek. Bol sans!</div>
     </div>
     <div class="pp-already" id="ppAlready">
-      <div style="font-size:40px;margin-bottom:12px">⚠️</div>
-      <div style="font-family:'Unbounded',sans-serif;font-size:18px;font-weight:700;color:var(--red);margin-bottom:6px">Zaten Katıldın!</div>
-      <div style="font-size:14px;color:var(--t2)">Bu çekilişe daha önce katıldın. Her kişi yalnızca 1 kez katılabilir.</div>
+      <div style="font-size:36px;margin-bottom:12px">⚠️</div>
+      <div style="font-family:'Unbounded',sans-serif;font-size:17px;font-weight:700;color:var(--red);margin-bottom:6px">Zaten Katildin!</div>
+      <div style="font-size:14px;color:var(--t2)">Bu cekilise daha once katildin. Her kisi yalnizca 1 kez katilabilir.</div>
     </div>
   </div>
 </div>
@@ -443,16 +426,16 @@ Raffle Ekibi 🎲</textarea>
 <div class="overlay" id="managerOverlay">
   <div class="modal">
     <div class="modal-head">
-      <div><div class="modal-title" id="mgrTitle">Çekiliş Yönetimi</div><div class="modal-sub" id="mgrSub">—</div></div>
+      <div><div class="modal-title" id="mgrTitle">Cekilis Yonetimi</div><div class="modal-sub" id="mgrSub"></div></div>
       <button class="modal-close" id="mgrClose">✕</button>
     </div>
     <div class="m-stats">
-      <div class="m-stat"><div class="m-stat-num" id="mParts">0</div><div class="m-stat-lbl">Katılımcı</div></div>
+      <div class="m-stat"><div class="m-stat-num" id="mParts">0</div><div class="m-stat-lbl">Katilimci</div></div>
       <div class="m-stat"><div class="m-stat-num" id="mWins">0</div><div class="m-stat-lbl">Kazanan</div></div>
       <div class="m-stat"><div class="m-stat-num" id="mEligible">0</div><div class="m-stat-lbl">Uygun</div></div>
     </div>
     <div id="mPrizesDisplay" class="m-prizes"></div>
-    <button class="btn btn-gold btn-block" style="font-size:15px;padding:14px" id="drawBtn">🏆 Kazanan Seç</button>
+    <button class="btn btn-gold btn-block" style="font-size:15px;padding:14px" id="drawBtn">🏆 Kazanan Sec</button>
     <div class="divider"></div>
     <div id="mWinnersList"></div>
   </div>
@@ -461,34 +444,34 @@ Raffle Ekibi 🎲</textarea>
 <!-- DELETE MODAL -->
 <div class="overlay" id="deleteOverlay">
   <div class="modal" style="max-width:400px;text-align:center;padding:40px">
-    <div style="font-size:48px;margin-bottom:16px">🗑️</div>
-    <div style="font-family:'Unbounded',sans-serif;font-size:20px;font-weight:700;margin-bottom:8px">Çekilişi Sil</div>
-    <div style="color:var(--t2);font-size:14px;margin-bottom:24px;line-height:1.6" id="delSub">Emin misiniz?</div>
+    <div class="del-icon">🗑️</div>
+    <div class="del-title">Cekilisi Sil</div>
+    <div class="del-sub" id="delSub">Emin misiniz?</div>
     <div style="display:flex;gap:10px;justify-content:center">
-      <button class="btn btn-ghost" id="delCancel">İptal</button>
+      <button class="btn btn-ghost" id="delCancel">Iptal</button>
       <button class="btn btn-danger" id="delConfirm">Evet, Sil</button>
     </div>
   </div>
 </div>
 
-<!-- SLOT MACHINE OVERLAY -->
+<!-- SLOT MACHINE -->
 <div id="slotOverlay">
   <div class="slot-box">
     <div class="slot-scan"></div>
-    <div class="slot-eyebrow">🎲 Kazanan Seçiliyor</div>
-    <div class="slot-prize-label" id="slotPrizeLabel">—</div>
+    <div class="slot-eyebrow">KAZANAN SECILIYOR</div>
+    <div class="slot-prize-label" id="slotPrizeLabel"></div>
     <div class="slot-window">
       <div class="slot-cursor"></div>
       <div class="slot-reel" id="slotReel"></div>
     </div>
-    <div class="slot-progress"><div class="slot-progress-bar" id="slotBar"></div></div>
-    <div class="slot-status" id="slotStatus">Katılımcılar karıştırılıyor…</div>
+    <div class="slot-progress"><div class="slot-bar" id="slotBar"></div></div>
+    <div class="slot-status" id="slotStatus">Katilimcilar karistiriliyor...</div>
     <div class="slot-reveal" id="slotReveal">
       <span class="slot-trophy">🏆</span>
-      <div class="slot-winner-name" id="slotWinnerName">—</div>
-      <div class="slot-winner-email" id="slotWinnerEmail">—</div>
-      <div class="slot-prize-won" id="slotPrizeWon">—</div>
-      <button class="btn btn-gold slot-close-btn" id="slotCloseBtn">Harika! Devam Et →</button>
+      <div class="slot-winner-name" id="slotWinnerName"></div>
+      <div class="slot-winner-email" id="slotWinnerEmail"></div>
+      <div class="slot-prize-won" id="slotPrizeWon"></div>
+      <button class="btn btn-gold" style="padding:12px 32px;font-size:15px" id="slotCloseBtn">Devam Et</button>
     </div>
   </div>
 </div>
@@ -496,623 +479,550 @@ Raffle Ekibi 🎲</textarea>
 <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-import {
-  getFirestore, collection, addDoc, doc, setDoc, getDoc, getDocs,
-  updateDoc, deleteDoc, query, where, onSnapshot, increment
-} from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import { getFirestore, collection, addDoc, doc, setDoc, getDoc, getDocs, updateDoc, deleteDoc, query, where, onSnapshot, increment } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-/* ── Firebase config ── */
-const FB={
-  apiKey:'AIzaSyAIFpdDza_jwo0W4uQ_wAiTL3jvFLGmFzU',
-  authDomain:'it-s-time-for-the-draw.firebaseapp.com',
-  projectId:'it-s-time-for-the-draw',
-  storageBucket:'it-s-time-for-the-draw.firebasestorage.app',
-  messagingSenderId:'526815408485',
-  appId:'1:526815408485:web:749ad3761c8f97ca14718c'
+const FB = {
+  apiKey: "AIzaSyAIFpdDza_jwo0W4uQ_wAiTL3jvFLGmFzU",
+  authDomain: "it-s-time-for-the-draw.firebaseapp.com",
+  projectId: "it-s-time-for-the-draw",
+  storageBucket: "it-s-time-for-the-draw.firebasestorage.app",
+  messagingSenderId: "526815408485",
+  appId: "1:526815408485:web:749ad3761c8f97ca14718c"
 };
-const fbApp=initializeApp(FB);
-const auth=getAuth(fbApp);
-const db=getFirestore(fbApp);
+const app = initializeApp(FB);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-/* ── CONFETTI ── */
-function boom(){
-  const c=document.getElementById('confetti'),ctx=c.getContext('2d');
-  c.width=innerWidth;c.height=innerHeight;
-  const ps=Array.from({length:200},()=>({
-    x:Math.random()*c.width,y:Math.random()*c.height-c.height,
-    r:3+Math.random()*6,vy:2+Math.random()*5,vx:(Math.random()-.5)*4,
-    a:Math.random()*360,va:(Math.random()-.5)*9,
-    col:['#ff2d55','#ff9500','#ffd60a','#34c759','#0a84ff','#bf5af2'][~~(Math.random()*6)]
+/* ── HELPERS ── */
+function boom() {
+  const c = document.getElementById("confetti"), ctx = c.getContext("2d");
+  c.width = innerWidth; c.height = innerHeight;
+  const ps = Array.from({length:180}, () => ({
+    x: Math.random()*c.width, y: Math.random()*c.height - c.height,
+    r: 3+Math.random()*6, vy: 2+Math.random()*5, vx: (Math.random()-.5)*4,
+    a: Math.random()*360, va: (Math.random()-.5)*9,
+    col: ["#ff2d55","#ff9500","#ffd60a","#34c759","#0a84ff","#bf5af2"][~~(Math.random()*6)]
   }));
-  let f=0;
-  (function draw(){
+  let f = 0;
+  (function draw() {
     ctx.clearRect(0,0,c.width,c.height);
-    ps.forEach(p=>{
-      ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.a*Math.PI/180);
-      ctx.fillStyle=p.col;ctx.fillRect(-p.r,-p.r/2,p.r*2,p.r);ctx.restore();
-      p.y+=p.vy;p.x+=p.vx;p.a+=p.va;
-      if(p.y>c.height){p.y=-10;p.x=Math.random()*c.width}
+    ps.forEach(p => {
+      ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.a*Math.PI/180);
+      ctx.fillStyle = p.col; ctx.fillRect(-p.r,-p.r/2,p.r*2,p.r); ctx.restore();
+      p.y+=p.vy; p.x+=p.vx; p.a+=p.va;
+      if (p.y > c.height) { p.y=-10; p.x=Math.random()*c.width; }
     });
-    if(++f<260)requestAnimationFrame(draw);
+    if (++f < 240) requestAnimationFrame(draw);
     else ctx.clearRect(0,0,c.width,c.height);
   })();
 }
 
-/* ── TOAST ── */
-function toast(msg,type='ok'){
-  const el=document.createElement('div');
-  el.className='toast';
-  el.style.borderLeft=`3px solid ${type==='ok'?'#34c759':type==='err'?'#ff2d55':'#ff9500'}`;
-  el.textContent=msg;
-  document.getElementById('toasts').appendChild(el);
-  setTimeout(()=>{el.classList.add('die');setTimeout(()=>el.remove(),300)},3500);
+function toast(msg, type) {
+  const el = document.createElement("div");
+  el.className = "toast";
+  el.style.borderLeft = "3px solid " + (type==="err" ? "#ff2d55" : type==="warn" ? "#ff9500" : "#34c759");
+  el.textContent = msg;
+  document.getElementById("toasts").appendChild(el);
+  setTimeout(() => { el.classList.add("die"); setTimeout(() => el.remove(), 300); }, 3200);
 }
 
-/* ── 3D TILT ── */
-let tiltRAF=null;
-document.addEventListener('mousemove',e=>{
-  if(tiltRAF)cancelAnimationFrame(tiltRAF);
-  tiltRAF=requestAnimationFrame(()=>{
-    document.querySelectorAll('.tilt3d').forEach(el=>{
-      const r=el.getBoundingClientRect();
-      const dx=(e.clientX-(r.left+r.width/2))/r.width;
-      const dy=(e.clientY-(r.top+r.height/2))/r.height;
-      if(Math.sqrt(dx*dx+dy*dy)<1)
-        el.style.transform=`perspective(600px) rotateY(${dx*12}deg) rotateX(${-dy*12}deg) translateY(-4px)`;
-      else el.style.transform='';
+let tiltRAF = null;
+document.addEventListener("mousemove", e => {
+  if (tiltRAF) cancelAnimationFrame(tiltRAF);
+  tiltRAF = requestAnimationFrame(() => {
+    document.querySelectorAll(".tilt3d").forEach(el => {
+      const r = el.getBoundingClientRect();
+      const dx = (e.clientX - (r.left+r.width/2)) / r.width;
+      const dy = (e.clientY - (r.top+r.height/2)) / r.height;
+      if (Math.sqrt(dx*dx+dy*dy) < 1)
+        el.style.transform = "perspective(600px) rotateY("+dx*10+"deg) rotateX("+(-dy*10)+"deg) translateY(-4px)";
+      else el.style.transform = "";
     });
   });
 });
 
+/* ── URL CHECK ── */
+const sp = new URLSearchParams(location.search);
+const urlC = sp.get("c"), urlG = sp.get("g");
+const isPart = !!(urlC && urlG);
+
 /* ── PAGE ROUTER ── */
-function showPage(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.toggle('active',t.dataset.page===id));
-  if(id==='pageDiscover')loadDiscover();
-  if(id==='pageDashboard')loadDashboard();
+function showPage(id) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.querySelectorAll(".nav-tab").forEach(t => t.classList.toggle("active", t.dataset.page === id));
+  if (id === "pageDiscover") loadDiscover();
+  if (id === "pageDashboard") loadDashboard();
+  if (id === "pageCreate") updateCreatePage();
 }
-document.querySelectorAll('.nav-tab').forEach(t=>t.addEventListener('click',()=>showPage(t.dataset.page)));
+document.querySelectorAll(".nav-tab").forEach(t => t.addEventListener("click", () => showPage(t.dataset.page)));
 
-/* ── URL ── */
-const sp=new URLSearchParams(location.search);
-const urlC=sp.get('c'),urlG=sp.get('g');
-const isPart=urlC&&urlG;
+/* ── AUTH STATE ── */
+let me = null;
+let partInited = false;
 
-/* ── AUTH ── */
-let me=null;
-let partInited=false;
-let authReady=false;
+onAuthStateChanged(auth, user => {
+  me = user;
 
-function applyUser(user){
-  me=user;
-
-  if(isPart){
-    document.getElementById('nav').classList.add('hidden');
-    showPage('pageParticipant');
-    if(!partInited){partInited=true;initParticipant();}
+  if (isPart) {
+    document.getElementById("nav").style.display = "none";
+    showPage("pageParticipant");
+    if (!partInited) { partInited = true; initParticipant(); }
     return;
   }
 
-  if(user){
-    const nav=document.getElementById('nav');
-    const navAvatar=document.getElementById('navAvatar');
-    const navName=document.getElementById('navName');
-    const dashName=document.getElementById('dashName');
-    if(nav) nav.classList.remove('hidden');
-    const name=(user.displayName||user.email||'Kullanici').trim();
-    const init=name.split(/\s+/).map(w=>w[0]||'').join('').slice(0,2).toUpperCase()||'?';
-    if(navAvatar) navAvatar.textContent=init;
-    if(navName) navName.textContent=name.split(/\s+/)[0];
-    if(dashName) dashName.textContent=name.split(/\s+/)[0];
-    showPage('pageDiscover');
-  }else{
-    const nav=document.getElementById('nav');
-    if(nav) nav.classList.add('hidden');
-    showPage('pageLogin');
+  updateNavUser();
+  updateCreatePage();
+});
+
+function updateNavUser() {
+  const nr = document.getElementById("navRight");
+  if (me) {
+    const name = (me.displayName || me.email || "Kullanici").trim();
+    const init = name.split(" ").map(w => w[0]||"").join("").slice(0,2).toUpperCase() || "?";
+    nr.innerHTML = '<span class="nav-user">' + name.split(" ")[0] + '</span>' +
+      '<div class="nav-avatar">' + init + '</div>' +
+      '<button class="btn btn-ghost btn-sm" id="logoutBtn">Cikis</button>';
+    document.getElementById("logoutBtn").addEventListener("click", () => signOut(auth));
+    if (document.getElementById("dashName")) document.getElementById("dashName").textContent = name.split(" ")[0];
+  } else {
+    nr.innerHTML = "";
   }
 }
 
-/* Handle redirect result FIRST, then listen for state changes */
-getRedirectResult(auth).then(result=>{
-  if(result&&result.user){
-    applyUser(result.user);
-    authReady=true;
+function updateCreatePage() {
+  const lr = document.getElementById("loginRequired");
+  const cf = document.getElementById("createForm");
+  if (!lr || !cf) return;
+  if (me) {
+    lr.classList.add("hidden");
+    cf.classList.remove("hidden");
+  } else {
+    lr.classList.remove("hidden");
+    cf.classList.add("hidden");
   }
-}).catch(e=>{
-  if(e&&e.code){
-    const errDiv=document.getElementById('loginError');
-    let msg='Giris hatasi: '+e.code;
-    if(e.code==='auth/unauthorized-domain') msg='Domain Firebase yetkili degil. Firebase Console > Authentication > Authorized Domains kismina domaini ekle.';
-    if(errDiv){errDiv.textContent=msg;errDiv.style.display='block';}
-  }
-}).finally(()=>{
-  /* After redirect check completes, listen for ongoing auth state */
-  onAuthStateChanged(auth,user=>{
-    applyUser(user);
+}
+
+/* ── LOGIN BUTTON — signInWithPopup, simple and direct ── */
+document.getElementById("loginBtn").addEventListener("click", function() {
+  const btn = this;
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Giris yapiliyor...';
+
+  const provider = new GoogleAuthProvider();
+  signInWithPopup(auth, provider).then(() => {
+    // onAuthStateChanged will fire and handle the rest
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg> Google ile Giris Yap';
+  }).catch(e => {
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg> Google ile Giris Yap';
+    if (e.code === "auth/popup-closed-by-user" || e.code === "auth/cancelled-popup-request") return;
+    const errDiv = document.getElementById("loginError");
+    let msg = "Hata: " + e.code;
+    if (e.code === "auth/unauthorized-domain") msg = "Domain yetkili degil! Firebase Console > Authentication > Authorized Domains kismina '" + location.hostname + "' ekle.";
+    if (e.code === "auth/operation-not-allowed") msg = "Google girisi aktif degil. Firebase Console > Authentication > Sign-in method > Google aktif et.";
+    if (e.code === "auth/popup-blocked") msg = "Popup engellendi! Tarayicinin adres cubugundan popup iznine izin ver.";
+    if (errDiv) { errDiv.textContent = msg; errDiv.style.display = "block"; }
   });
 });
 
-document.getElementById('loginBtn').addEventListener('click',()=>{
-  const btn=document.getElementById('loginBtn');
-  const origHTML=btn.innerHTML;
-  btn.innerHTML='<span class="spinner"></span> Yonlendiriliyor...';
-  btn.style.pointerEvents='none';
-  const provider=new GoogleAuthProvider();
-  signInWithRedirect(auth,provider).catch(e=>{
-    btn.innerHTML=origHTML;
-    btn.style.pointerEvents='';
-    const errDiv=document.getElementById('loginError');
-    let msg='Hata: '+e.code;
-    if(e.code==='auth/unauthorized-domain') msg='Domain Firebase yetkili degil. Authorized Domains'e ekle.';
-    if(e.code==='auth/operation-not-allowed') msg='Google girisi aktif degil. Sign-in method > Google aktif et.';
-    if(errDiv){errDiv.textContent=msg;errDiv.style.display='block';}
-    toast(msg,'err');
-  });
-});
+/* ══════════════════
+   DISCOVER
+══════════════════ */
+let allDraws = [], discFilter = "all";
 
-document.getElementById('navLogout').addEventListener('click',()=>signOut(auth));
-
-/* ════════════════════════════
-   DISCOVER  — cached counts
-════════════════════════════ */
-let allDraws=[],discFilter='all';
-
-async function loadDiscover(){
-  const grid=document.getElementById('discoverGrid');
-  grid.innerHTML='<div class="empty-state"><span class="spinner"></span></div>';
-  try{
-    /* Only 1 collection read — counts stored in draw doc */
-    const snap=await getDocs(collection(db,'giveaways'));
-    allDraws=[];
-    let tp=0,tw=0;
-    snap.forEach(d=>{
-      const dw={id:d.id,...d.data()};
-      tp+=(dw.partCount||0);
-      tw+=(dw.winCount||0);
+async function loadDiscover() {
+  const grid = document.getElementById("discoverGrid");
+  grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><span class="spinner"></span></div>';
+  try {
+    const snap = await getDocs(collection(db, "giveaways"));
+    allDraws = [];
+    let tp = 0, tw = 0;
+    snap.forEach(d => {
+      const dw = {id: d.id, ...d.data()};
+      tp += (dw.partCount||0); tw += (dw.winCount||0);
       allDraws.push(dw);
     });
-    const live=allDraws.filter(d=>!(d.endTime&&new Date(d.endTime)<new Date())).length;
-    document.getElementById('dStatDraws').textContent=live;
-    document.getElementById('dStatParts').textContent=tp;
-    document.getElementById('dStatWins').textContent=tw;
+    const live = allDraws.filter(d => !(d.endTime && new Date(d.endTime) < new Date())).length;
+    document.getElementById("dStatDraws").textContent = live;
+    document.getElementById("dStatParts").textContent = tp;
+    document.getElementById("dStatWins").textContent = tw;
     renderDiscover();
-  }catch(e){toast('Keşfet yüklenemedi','err')}
+  } catch(e) { toast("Yuklenemedi: " + e.message, "err"); }
 }
 
-function renderDiscover(){
-  const grid=document.getElementById('discoverGrid');
-  grid.innerHTML='';
-  const medals=['🥇','🥈','🥉'];
-  const list=allDraws.filter(d=>{
-    const ended=d.endTime&&new Date(d.endTime)<new Date();
-    return discFilter==='live'?!ended:discFilter==='ended'?ended:true;
+function renderDiscover() {
+  const grid = document.getElementById("discoverGrid");
+  grid.innerHTML = "";
+  const medals = ["🥇","🥈","🥉"];
+  const list = allDraws.filter(d => {
+    const ended = d.endTime && new Date(d.endTime) < new Date();
+    return discFilter === "live" ? !ended : discFilter === "ended" ? ended : true;
   });
-  if(!list.length){grid.innerHTML='<div class="empty-state"><div class="empty-icon">🔍</div><div class="empty-text">Henüz çekiliş yok.</div></div>';return;}
-  list.forEach((dw,i)=>{
-    const ended=dw.endTime&&new Date(dw.endTime)<new Date();
-    const el=document.createElement('div');
-    el.className='gc hov pg-card tilt3d';
-    el.style.animationDelay=`${i*0.06}s`;
-    el.innerHTML=`
-      <div class="pg-top">
-        <div class="pg-creator">
-          <div class="pg-ava">${(dw.creatorName||'?')[0].toUpperCase()}</div>
-          <div><div class="pg-cname">${(dw.creatorName||'').replace(/_/g,' ')}</div><div class="pg-date">${dw.createdAt?.toDate?dw.createdAt.toDate().toLocaleDateString('tr-TR'):''}</div></div>
-        </div>
-        <span class="badge ${ended?'badge-ended':'badge-live'}">${ended?'Bitti':'● Aktif'}</span>
-      </div>
-      <div class="pg-name">${(dw.drawName||'').replace(/_/g,' ')}</div>
-      ${(dw.prizes||[]).length?`<div class="pg-prizes">${(dw.prizes||[]).slice(0,3).map((p,i)=>`<div class="pg-prow"><span>${medals[i]||'🎁'}</span>${p}</div>`).join('')}</div>`:''}
-      <div class="pg-footer">
-        <div class="pg-part">👥 <strong>${dw.partCount||0}</strong> katılımcı</div>
-        ${!ended?`<button class="btn btn-fire btn-sm pg-join" data-c="${dw.creatorName}" data-g="${dw.drawName}">Katıl →</button>`:'<span style="font-size:12px;color:var(--t3)">Bitti</span>'}
-      </div>`;
+  if (!list.length) { grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">🔍</div><div class="empty-text">Hic cekilis yok.</div></div>'; return; }
+  list.forEach((dw, i) => {
+    const ended = dw.endTime && new Date(dw.endTime) < new Date();
+    const el = document.createElement("div");
+    el.className = "gc hov pg-card tilt3d";
+    el.style.animationDelay = (i * 0.06) + "s";
+    const prizes = dw.prizes || [];
+    el.innerHTML =
+      '<div class="pg-top">' +
+        '<div style="display:flex;align-items:center;gap:10px">' +
+          '<div class="pg-ava">' + (dw.creatorName||"?")[0].toUpperCase() + '</div>' +
+          '<div><div class="pg-cname">' + (dw.creatorName||"").replace(/_/g," ") + '</div><div class="pg-date">' + (dw.createdAt&&dw.createdAt.toDate ? dw.createdAt.toDate().toLocaleDateString("tr-TR") : "") + '</div></div>' +
+        '</div>' +
+        '<span class="badge ' + (ended?"badge-ended":"badge-live") + '">' + (ended?"Bitti":"● Aktif") + '</span>' +
+      '</div>' +
+      '<div class="pg-name">' + (dw.drawName||"").replace(/_/g," ") + '</div>' +
+      (prizes.length ? '<div class="pg-prizes">' + prizes.slice(0,3).map((p,i) => '<div class="pg-prow"><span>' + (medals[i]||"🎁") + '</span>' + p + '</div>').join("") + '</div>' : "") +
+      '<div class="pg-footer">' +
+        '<div class="pg-part">👥 <strong>' + (dw.partCount||0) + '</strong> katilimci</div>' +
+        (!ended ? '<button class="btn btn-fire btn-sm" onclick="window.open(\'' + location.origin + location.pathname + '?c=' + dw.creatorName + '&g=' + dw.drawName + '\',\'_blank\')">Katil →</button>' : '<span style="font-size:12px;color:var(--t3)">Bitti</span>') +
+      '</div>';
     grid.appendChild(el);
   });
-  grid.querySelectorAll('.pg-join').forEach(b=>b.addEventListener('click',()=>window.open(`${location.origin}${location.pathname}?c=${b.dataset.c}&g=${b.dataset.g}`,'_blank')));
 }
-document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{
-  document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
-  c.classList.add('active');discFilter=c.dataset.filter;renderDiscover();
+
+document.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
+  document.querySelectorAll(".chip").forEach(x => x.classList.remove("active"));
+  c.classList.add("active"); discFilter = c.dataset.filter; renderDiscover();
 }));
 
-/* ════════════════════════════
-   DASHBOARD — cached counts
-════════════════════════════ */
-let pendingDelId=null;
+/* ══════════════════
+   DASHBOARD
+══════════════════ */
+let pendingDelId = null;
 
-async function loadDashboard(){
-  if(!me)return;
-  const grid=document.getElementById('dashGrid');
-  grid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><span class="spinner"></span></div>';
-  try{
-    const q=query(collection(db,'giveaways'),where('creatorId','==',me.uid));
-    const snap=await getDocs(q);
-    const draws=[];
-    snap.forEach(d=>draws.push({id:d.id,...d.data()}));
-
-    /* KPI from cached fields — no extra reads */
-    document.getElementById('kpiDraws').textContent=draws.length;
-    document.getElementById('kpiParts').textContent=draws.reduce((a,d)=>a+(d.partCount||0),0);
-    document.getElementById('kpiWins').textContent=draws.reduce((a,d)=>a+(d.winCount||0),0);
-    document.getElementById('kpiEmails').textContent=draws.reduce((a,d)=>a+(d.emailsSent||0),0);
-
-    if(!draws.length){grid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">🎲</div><div class="empty-text">Henüz çekiliş yok.<br>Hemen oluştur!</div></div>';return;}
-    grid.innerHTML='';
-    draws.forEach((dw,i)=>{
-      const ended=dw.endTime&&new Date(dw.endTime)<new Date();
-      const link=`${location.origin}${location.pathname}?c=${dw.creatorName}&g=${dw.drawName}`;
-      const el=document.createElement('div');
-      el.className='gc hov my-draw-card tilt3d';
-      el.style.animationDelay=`${i*0.07}s`;
-      el.innerHTML=`
-        <div class="mdc-header">
-          <div><div class="mdc-name">${(dw.drawName||'').replace(/_/g,' ')}</div><div class="mdc-prize">${(dw.prizes||[])[0]||'Ödül yok'}</div></div>
-          <span class="badge ${ended?'badge-ended':'badge-live'}" style="padding:5px 10px">${ended?'Bitti':'Aktif'}</span>
-        </div>
-        <div class="mdc-stats">
-          <div class="mdc-stat"><div class="mdc-stat-num">${dw.partCount||0}</div><div class="mdc-stat-lbl">Katılım</div></div>
-          <div class="mdc-stat"><div class="mdc-stat-num">${dw.winCount||0}</div><div class="mdc-stat-lbl">Kazanan</div></div>
-          <div class="mdc-stat"><div class="mdc-stat-num">${dw.emailsSent||0}</div><div class="mdc-stat-lbl">E-posta</div></div>
-        </div>
-        <div class="mdc-footer">
-          <button class="btn btn-ghost manage-btn" data-id="${dw.id}" data-name="${dw.drawName}" data-prizes='${JSON.stringify(dw.prizes||[])}'>⚙️ Yönet</button>
-          <button class="btn btn-ghost copy-btn btn-sm" data-link="${link}" style="flex:0;padding:10px 14px">📋</button>
-          <button class="btn btn-danger del-btn btn-sm" data-id="${dw.id}" data-name="${dw.drawName}" style="flex:0;padding:10px 14px">🗑️</button>
-        </div>`;
+async function loadDashboard() {
+  if (!me) { document.getElementById("dashGrid").innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">🔐</div><div class="empty-text">Giris yapman gerekiyor.<br>Olustur sekmesine git.</div></div>'; return; }
+  const grid = document.getElementById("dashGrid");
+  grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><span class="spinner"></span></div>';
+  try {
+    const q = query(collection(db, "giveaways"), where("creatorId","==",me.uid));
+    const snap = await getDocs(q);
+    const draws = [];
+    snap.forEach(d => draws.push({id: d.id, ...d.data()}));
+    document.getElementById("kpiDraws").textContent = draws.length;
+    document.getElementById("kpiParts").textContent = draws.reduce((a,d)=>a+(d.partCount||0),0);
+    document.getElementById("kpiWins").textContent = draws.reduce((a,d)=>a+(d.winCount||0),0);
+    document.getElementById("kpiEmails").textContent = draws.reduce((a,d)=>a+(d.emailsSent||0),0);
+    if (!draws.length) { grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">🎲</div><div class="empty-text">Hic cekilis yok. Olustur sekmesinden basla!</div></div>'; return; }
+    grid.innerHTML = "";
+    draws.forEach((dw, i) => {
+      const ended = dw.endTime && new Date(dw.endTime) < new Date();
+      const link = location.origin + location.pathname + "?c=" + dw.creatorName + "&g=" + dw.drawName;
+      const el = document.createElement("div");
+      el.className = "gc hov my-card tilt3d";
+      el.style.animationDelay = (i*0.07)+"s";
+      el.innerHTML =
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">' +
+          '<div class="mdc-name">' + (dw.drawName||"").replace(/_/g," ") + '</div>' +
+          '<span class="badge ' + (ended?"badge-ended":"badge-live") + '">' + (ended?"Bitti":"Aktif") + '</span>' +
+        '</div>' +
+        '<div class="mdc-prize">' + ((dw.prizes||[])[0]||"Odul yok") + '</div>' +
+        '<div class="mdc-stats">' +
+          '<div class="mdc-stat"><div class="mdc-stat-num">' + (dw.partCount||0) + '</div><div class="mdc-stat-lbl">Katilim</div></div>' +
+          '<div class="mdc-stat"><div class="mdc-stat-num">' + (dw.winCount||0) + '</div><div class="mdc-stat-lbl">Kazanan</div></div>' +
+          '<div class="mdc-stat"><div class="mdc-stat-num">' + (dw.emailsSent||0) + '</div><div class="mdc-stat-lbl">E-posta</div></div>' +
+        '</div>' +
+        '<div class="mdc-footer">' +
+          '<button class="btn btn-ghost manage-btn" data-id="' + dw.id + '" data-name="' + dw.drawName + '" data-prizes=\'' + JSON.stringify(dw.prizes||[]) + '\'>Yonet</button>' +
+          '<button class="btn btn-ghost copy-btn btn-sm" data-link="' + link + '" style="flex:0;padding:10px 12px">📋</button>' +
+          '<button class="btn btn-danger del-btn btn-sm" data-id="' + dw.id + '" data-name="' + dw.drawName + '" style="flex:0;padding:10px 12px">🗑️</button>' +
+        '</div>';
       grid.appendChild(el);
     });
-    grid.querySelectorAll('.manage-btn').forEach(b=>b.addEventListener('click',()=>openManager(b.dataset.id,b.dataset.name,JSON.parse(b.dataset.prizes))));
-    grid.querySelectorAll('.copy-btn').forEach(b=>b.addEventListener('click',()=>{navigator.clipboard.writeText(b.dataset.link);toast('📋 Kopyalandı!')}));
-    grid.querySelectorAll('.del-btn').forEach(b=>b.addEventListener('click',()=>confirmDel(b.dataset.id,b.dataset.name)));
-  }catch(e){toast('Yükleme hatası','err')}
+    grid.querySelectorAll(".manage-btn").forEach(b => b.addEventListener("click", () => openManager(b.dataset.id, b.dataset.name, JSON.parse(b.dataset.prizes))));
+    grid.querySelectorAll(".copy-btn").forEach(b => b.addEventListener("click", () => { navigator.clipboard.writeText(b.dataset.link); toast("Link kopyalandi!"); }));
+    grid.querySelectorAll(".del-btn").forEach(b => b.addEventListener("click", () => confirmDel(b.dataset.id, b.dataset.name)));
+  } catch(e) { toast("Hata: " + e.message, "err"); }
 }
-document.getElementById('dashRefreshBtn').addEventListener('click',loadDashboard);
+document.getElementById("dashRefreshBtn").addEventListener("click", loadDashboard);
 
-function confirmDel(id,name){
-  pendingDelId=id;
-  document.getElementById('delSub').textContent=`"${name?.replace(/_/g,' ')}" silinecek. Tüm katılımcı verileri kalıcı olarak silinir.`;
-  document.getElementById('deleteOverlay').classList.add('open');
+function confirmDel(id, name) {
+  pendingDelId = id;
+  document.getElementById("delSub").textContent = '"' + (name||"").replace(/_/g," ") + '" silinecek. Tum katilimci verileri kalici olarak silinir.';
+  document.getElementById("deleteOverlay").classList.add("open");
 }
-document.getElementById('delCancel').addEventListener('click',()=>document.getElementById('deleteOverlay').classList.remove('open'));
-document.getElementById('delConfirm').addEventListener('click',async()=>{
-  if(!pendingDelId)return;
-  document.getElementById('deleteOverlay').classList.remove('open');
-  try{
-    const ps=await getDocs(collection(db,`giveaways/${pendingDelId}/participants`));
-    await Promise.all(ps.docs.map(d=>deleteDoc(d.ref)));
-    await deleteDoc(doc(db,'giveaways',pendingDelId));
-    toast('✅ Çekiliş silindi');await loadDashboard();
-  }catch(e){toast('Silme hatası: '+e.message,'err')}
+document.getElementById("delCancel").addEventListener("click", () => document.getElementById("deleteOverlay").classList.remove("open"));
+document.getElementById("delConfirm").addEventListener("click", async () => {
+  if (!pendingDelId) return;
+  document.getElementById("deleteOverlay").classList.remove("open");
+  try {
+    const ps = await getDocs(collection(db, "giveaways/" + pendingDelId + "/participants"));
+    await Promise.all(ps.docs.map(d => deleteDoc(d.ref)));
+    await deleteDoc(doc(db, "giveaways", pendingDelId));
+    toast("Cekilis silindi");
+    loadDashboard();
+  } catch(e) { toast("Silme hatasi: " + e.message, "err"); }
 });
 
-/* ════════════════════════════
+/* ══════════════════
    CREATE
-════════════════════════════ */
-let tierCount=1;
-document.getElementById('addPrizeBtn').addEventListener('click',()=>{
-  if(tierCount>=3)return toast('En fazla 3 ödül','warn');
+══════════════════ */
+let tierCount = 1;
+document.getElementById("addPrizeBtn").addEventListener("click", () => {
+  if (tierCount >= 3) { toast("En fazla 3 odul", "warn"); return; }
   tierCount++;
-  const div=document.createElement('div');
-  div.className=`prize-tier tier-${tierCount}`;
-  div.innerHTML=`<div class="tier-badge">${tierCount}</div><input class="tier-inp" placeholder="${tierCount}. ödülü yaz">`;
-  document.getElementById('prizeTiers').appendChild(div);
+  const div = document.createElement("div");
+  div.className = "prize-tier tier-" + tierCount;
+  div.innerHTML = '<div class="tier-badge">' + tierCount + '</div><input class="tier-inp" placeholder="' + tierCount + '. odul">';
+  document.getElementById("prizeTiers").appendChild(div);
 });
 
-document.getElementById('createBtn').addEventListener('click',async()=>{
-  if(!me)return;
-  const name=document.getElementById('cDrawName').value.trim();
-  if(!name)return toast('Çekiliş adı zorunlu!','err');
-  const prizes=[...document.querySelectorAll('.tier-inp')].map(i=>i.value.trim()).filter(Boolean);
-  const endTime=document.getElementById('cEndTime').value;
-  const desc=document.getElementById('cDesc').value.trim();
-  const emailSubject=document.getElementById('cEmailSubject').value.trim();
-  const emailBody=document.getElementById('cEmailBody').value.trim();
-  const ejsService=document.getElementById('cEjsService').value.trim();
-  const ejsTemplate=document.getElementById('cEjsTemplate').value.trim();
-  const ejsKey=document.getElementById('cEjsKey').value.trim();
-  const safeC=me.displayName.replace(/\s+/g,'_').toLowerCase();
-  const safeG=name.replace(/\s+/g,'_').replace(/[^\w\u00C0-\u024F]/g,'').toLowerCase();
-  const drawId=`${safeC}_${safeG}`;
-  const btn=document.getElementById('createBtn');
-  btn.innerHTML='<span class="spinner"></span>';btn.disabled=true;
-  try{
-    await setDoc(doc(db,'giveaways',drawId),{
-      creatorId:me.uid,creatorName:safeC,drawName:safeG,
-      prizes,endTime,desc,emailSubject,emailBody,
-      ejsService,ejsTemplate,ejsKey,
-      partCount:0,winCount:0,emailsSent:0,
-      createdAt:new Date()
+document.getElementById("createBtn").addEventListener("click", async () => {
+  if (!me) { toast("Once giris yapin!", "err"); return; }
+  const name = document.getElementById("cDrawName").value.trim();
+  if (!name) { toast("Cekilis adi zorunlu!", "err"); return; }
+  const prizes = [...document.querySelectorAll(".tier-inp")].map(i => i.value.trim()).filter(Boolean);
+  const endTime = document.getElementById("cEndTime").value;
+  const desc = document.getElementById("cDesc").value.trim();
+  const emailSubject = document.getElementById("cEmailSubject").value.trim();
+  const emailBody = document.getElementById("cEmailBody").value.trim();
+  const ejsService = document.getElementById("cEjsService").value.trim();
+  const ejsTemplate = document.getElementById("cEjsTemplate").value.trim();
+  const ejsKey = document.getElementById("cEjsKey").value.trim();
+  const safeC = (me.displayName||me.email||"user").replace(/\s+/g,"_").replace(/[^\w]/g,"").toLowerCase();
+  const safeG = name.replace(/\s+/g,"_").replace(/[^\w]/g,"").toLowerCase();
+  const drawId = safeC + "_" + safeG;
+  const btn = document.getElementById("createBtn");
+  btn.innerHTML = '<span class="spinner"></span> Olusturuluyor...'; btn.disabled = true;
+  try {
+    await setDoc(doc(db, "giveaways", drawId), {
+      creatorId: me.uid, creatorName: safeC, drawName: safeG,
+      prizes, endTime, desc, emailSubject, emailBody,
+      ejsService, ejsTemplate, ejsKey,
+      partCount: 0, winCount: 0, emailsSent: 0, createdAt: new Date()
     });
-    const link=`${location.origin}${location.pathname}?c=${safeC}&g=${safeG}`;
-    document.getElementById('cLinkText').textContent=link;
-    document.getElementById('cLinkBox').classList.remove('hidden');
-    toast('✅ Çekiliş yayınlandı!');boom();
-  }catch(e){toast('Hata: '+e.message,'err')}
-  finally{btn.innerHTML='✨ Çekilişi Yayınla';btn.disabled=false;}
+    const link = location.origin + location.pathname + "?c=" + safeC + "&g=" + safeG;
+    document.getElementById("cLinkText").textContent = link;
+    document.getElementById("cLinkBox").classList.remove("hidden");
+    toast("Cekilis yayinlandi!");
+    boom();
+  } catch(e) { toast("Hata: " + e.message, "err"); }
+  finally { btn.innerHTML = "Cekilisi Yayinla"; btn.disabled = false; }
 });
-document.getElementById('cCopyBtn').addEventListener('click',()=>{
-  navigator.clipboard.writeText(document.getElementById('cLinkText').textContent);toast('📋 Kopyalandı!');
+document.getElementById("cCopyBtn").addEventListener("click", () => {
+  navigator.clipboard.writeText(document.getElementById("cLinkText").textContent);
+  toast("Kopyalandi!");
 });
 
-/* ════════════════════════════
-   MANAGER MODAL
-════════════════════════════ */
-let mgrId='',mgrParts=[],mgrWinCount=0,mgrPrizes=[],mgrData={};
-let mgrUnsubscribe=null; // realtime listener
+/* ══════════════════
+   MANAGER
+══════════════════ */
+let mgrId = "", mgrParts = [], mgrWinCount = 0, mgrPrizes = [], mgrData = {};
+let mgrUnsub = null;
 
-async function openManager(drawId,drawName,prizes){
-  mgrId=drawId;mgrWinCount=0;mgrPrizes=prizes;
-  document.getElementById('mgrTitle').textContent=drawName?.replace(/_/g,' ');
-  document.getElementById('mgrSub').textContent=(prizes||[]).join(' · ')||'Ödül tanımlanmamış';
-  document.getElementById('mWinnersList').innerHTML='';
-
-  const dd=await getDoc(doc(db,'giveaways',drawId));
-  if(dd.exists())mgrData=dd.data();
-
-  const pd=document.getElementById('mPrizesDisplay');
-  pd.innerHTML='';
-  const medals=['🥇','🥈','🥉'];
-  (prizes||[]).forEach((p,i)=>{
-    const r=document.createElement('div');r.className='m-prow';r.id=`mpr_${i}`;
-    r.innerHTML=`<div class="m-pleft">${medals[i]||'🎁'} <strong>${p}</strong></div><div class="m-pw empty" id="mpw_${i}">— Henüz seçilmedi</div>`;
+async function openManager(drawId, drawName, prizes) {
+  mgrId = drawId; mgrWinCount = 0; mgrPrizes = prizes;
+  document.getElementById("mgrTitle").textContent = (drawName||"").replace(/_/g," ");
+  document.getElementById("mgrSub").textContent = prizes.join(" · ") || "Odul tanimlanmamis";
+  document.getElementById("mWinnersList").innerHTML = "";
+  const dd = await getDoc(doc(db, "giveaways", drawId));
+  if (dd.exists()) mgrData = dd.data();
+  const pd = document.getElementById("mPrizesDisplay");
+  pd.innerHTML = "";
+  const medals = ["🥇","🥈","🥉"];
+  prizes.forEach((p, i) => {
+    const r = document.createElement("div"); r.className = "m-prow"; r.id = "mpr_"+i;
+    r.innerHTML = '<div class="m-pleft">' + (medals[i]||"🎁") + ' <strong>' + p + '</strong></div><div class="m-pw empty" id="mpw_'+i+'">Henuz secilmedi</div>';
     pd.appendChild(r);
   });
-
-  document.getElementById('managerOverlay').classList.add('open');
-
-  /* ── Realtime listener for participant count ── */
-  if(mgrUnsubscribe)mgrUnsubscribe();
-  mgrUnsubscribe=onSnapshot(collection(db,`giveaways/${drawId}/participants`),snap=>{
-    const all=snap.size;
-    let wins=0;mgrParts=[];
-    snap.forEach(d=>{
-      if(d.data().isWinner)wins++;
-      else mgrParts.push({id:d.id,...d.data()});
-    });
-    document.getElementById('mParts').textContent=all;
-    document.getElementById('mWins').textContent=wins;
-    document.getElementById('mEligible').textContent=all-wins;
+  document.getElementById("managerOverlay").classList.add("open");
+  if (mgrUnsub) mgrUnsub();
+  mgrUnsub = onSnapshot(collection(db, "giveaways/"+drawId+"/participants"), snap => {
+    let wins = 0; mgrParts = [];
+    snap.forEach(d => { if (d.data().isWinner) wins++; else mgrParts.push({id:d.id,...d.data()}); });
+    document.getElementById("mParts").textContent = snap.size;
+    document.getElementById("mWins").textContent = wins;
+    document.getElementById("mEligible").textContent = snap.size - wins;
   });
 }
 
-function closeMgr(){
-  document.getElementById('managerOverlay').classList.remove('open');
-  if(mgrUnsubscribe){mgrUnsubscribe();mgrUnsubscribe=null;}
+function closeMgr() {
+  document.getElementById("managerOverlay").classList.remove("open");
+  if (mgrUnsub) { mgrUnsub(); mgrUnsub = null; }
   loadDashboard();
 }
-document.getElementById('mgrClose').addEventListener('click',closeMgr);
-document.getElementById('managerOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('managerOverlay'))closeMgr();});
+document.getElementById("mgrClose").addEventListener("click", closeMgr);
+document.getElementById("managerOverlay").addEventListener("click", e => { if (e.target === document.getElementById("managerOverlay")) closeMgr(); });
 
-/* ════════════════════════════
-   SLOT MACHINE ANIMATION
-════════════════════════════ */
-function runSlotMachine(participants,prizeName,onComplete){
-  if(!participants.length)return;
-  const overlay=document.getElementById('slotOverlay');
-  const reel=document.getElementById('slotReel');
-  const bar=document.getElementById('slotBar');
-  const status=document.getElementById('slotStatus');
-  const reveal=document.getElementById('slotReveal');
-
-  /* Pick winner ahead of time */
-  const winIdx=~~(Math.random()*participants.length);
-  const winner=participants[winIdx];
-
-  /* Setup */
-  document.getElementById('slotPrizeLabel').textContent=`🎯 ${prizeName}`;
-  reveal.classList.remove('show');reveal.style.display='none';
-  bar.style.width='0%';
-  status.textContent='Katılımcılar karıştırılıyor…';
-  overlay.classList.add('open');
-
-  /* Build a shuffle list ending with winner */
-  const DURATION=5000; // ms
-  const ITEM_H=44;
-  const names=participants.map(p=>p.name||p.fullName||p.email||'—');
-
-  /* Build reel items: random names + winner in center */
-  const COUNT=40; // total slot items
-  const winnerPos=COUNT-2; // winner lands at this index (0-based)
-  reel.innerHTML='';
-  for(let i=0;i<COUNT;i++){
-    const item=document.createElement('div');
-    item.className='slot-item';
-    const n=i===winnerPos?winner.name||winner.fullName||winner.email||'—':names[~~(Math.random()*names.length)];
-    item.textContent=n;
-    reel.appendChild(item);
+/* ══════════════════
+   SLOT MACHINE
+══════════════════ */
+function runSlot(participants, prizeName, onComplete) {
+  if (!participants.length) return;
+  const winIdx = ~~(Math.random() * participants.length);
+  const winner = participants[winIdx];
+  const overlay = document.getElementById("slotOverlay");
+  const reel = document.getElementById("slotReel");
+  const bar = document.getElementById("slotBar");
+  const status = document.getElementById("slotStatus");
+  const reveal = document.getElementById("slotReveal");
+  document.getElementById("slotPrizeLabel").textContent = prizeName;
+  reveal.classList.remove("show"); reveal.style.display = "none";
+  bar.style.width = "0%"; status.textContent = "Katilimcilar karistiriliyor...";
+  overlay.classList.add("open");
+  const names = participants.map(p => p.name||p.fullName||p.email||"—");
+  const COUNT = 36, WIN_POS = COUNT - 2, ITEM_H = 44, DUR = 5000;
+  reel.innerHTML = "";
+  for (let i = 0; i < COUNT; i++) {
+    const it = document.createElement("div"); it.className = "slot-item";
+    it.textContent = i === WIN_POS ? (winner.name||winner.fullName||winner.email||"—") : names[~~(Math.random()*names.length)];
+    reel.appendChild(it);
   }
-
-  /* Window shows 2 items visible, center = index 1 */
-  const VISIBLE_CENTER=1; // 0-indexed within window (2 visible, center = index 1 from top)
-  const totalScroll=(winnerPos-VISIBLE_CENTER)*ITEM_H;
-
-  /* Animate with easing */
-  const start=performance.now();
-
-  function easeOut(t){return 1-Math.pow(1-t,4);}
-
-  let animId;
-  function frame(now){
-    const elapsed=now-start;
-    const rawT=Math.min(elapsed/DURATION,1);
-    const t=easeOut(rawT);
-    const scrollY=t*totalScroll;
-    reel.style.transform=`translateY(${-scrollY}px)`;
-
-    /* Progress bar */
-    bar.style.width=`${rawT*100}%`;
-
-    /* Status text */
-    const remaining=Math.max(0,Math.ceil((DURATION-elapsed)/1000));
-    if(rawT<1){
-      status.textContent=remaining>0?`${remaining} saniye…`:'Hesaplanıyor…';
-    }
-
-    /* Highlight center item */
-    const centerIdx=Math.round(scrollY/ITEM_H)+VISIBLE_CENTER;
-    reel.querySelectorAll('.slot-item').forEach((el,i)=>el.classList.toggle('center',i===centerIdx));
-
-    if(rawT<1){animId=requestAnimationFrame(frame);}
-    else{
-      /* Lock on winner */
-      reel.style.transform=`translateY(${-totalScroll}px)`;
-      reel.querySelectorAll('.slot-item').forEach((el,i)=>el.classList.toggle('center',i===winnerPos));
-      status.textContent='✨ Kazanan belirlendi!';
-
-      /* Show reveal after brief pause */
-      setTimeout(()=>{
-        document.getElementById('slotWinnerName').textContent=winner.name||winner.fullName||winner.email||'—';
-        document.getElementById('slotWinnerEmail').textContent=winner.email||'—';
-        document.getElementById('slotPrizeWon').textContent=`🏆 ${prizeName}`;
-        reveal.style.display='block';
-        requestAnimationFrame(()=>reveal.classList.add('show'));
+  const totalScroll = (WIN_POS - 1) * ITEM_H;
+  const start = performance.now();
+  function easeOut(t) { return 1 - Math.pow(1-t, 4); }
+  let raf;
+  (function frame(now) {
+    const raw = Math.min((now-start)/DUR, 1);
+    const t = easeOut(raw);
+    const y = t * totalScroll;
+    reel.style.transform = "translateY(-"+y+"px)";
+    bar.style.width = (raw*100)+"%";
+    const rem = Math.max(0, Math.ceil((DUR-(now-start))/1000));
+    if (raw < 1) status.textContent = rem > 0 ? rem+" saniye..." : "Hesaplaniyor...";
+    const ci = Math.round(y/ITEM_H) + 1;
+    reel.querySelectorAll(".slot-item").forEach((el,i) => el.classList.toggle("center", i===ci));
+    if (raw < 1) { raf = requestAnimationFrame(frame); }
+    else {
+      reel.style.transform = "translateY(-"+totalScroll+"px)";
+      reel.querySelectorAll(".slot-item").forEach((el,i) => el.classList.toggle("center", i===WIN_POS));
+      status.textContent = "Kazanan belirlendi!";
+      setTimeout(() => {
+        document.getElementById("slotWinnerName").textContent = winner.name||winner.fullName||winner.email||"—";
+        document.getElementById("slotWinnerEmail").textContent = winner.email||"";
+        document.getElementById("slotPrizeWon").textContent = prizeName;
+        reveal.style.display = "block";
+        requestAnimationFrame(() => reveal.classList.add("show"));
         boom();
-        onComplete(winner,winIdx);
-      },600);
+        onComplete(winner, winIdx);
+      }, 500);
     }
-  }
-  animId=requestAnimationFrame(frame);
+  })(start);
 }
 
-/* Close slot after button click */
-document.getElementById('slotCloseBtn').addEventListener('click',()=>{
-  document.getElementById('slotOverlay').classList.remove('open');
-});
+document.getElementById("slotCloseBtn").addEventListener("click", () => document.getElementById("slotOverlay").classList.remove("open"));
 
-/* Draw winner button */
-document.getElementById('drawBtn').addEventListener('click',async()=>{
-  if(!mgrParts.length)return toast('Uygun katılımcı kalmadı!','err');
-  const tierIdx=mgrWinCount;
-  const prizeName=mgrPrizes[tierIdx]||`${tierIdx+1}. Ödül`;
-
-  /* Disable button during animation */
-  const drawBtn=document.getElementById('drawBtn');
-  drawBtn.disabled=true;drawBtn.style.opacity='0.5';
-
-  runSlotMachine(mgrParts,prizeName,async(winner,winIdx)=>{
+document.getElementById("drawBtn").addEventListener("click", async () => {
+  if (!mgrParts.length) { toast("Uygun katilimci kalmadi!", "err"); return; }
+  const tierIdx = mgrWinCount;
+  const prizeName = mgrPrizes[tierIdx] || ((tierIdx+1)+". Odul");
+  const btn = document.getElementById("drawBtn");
+  btn.disabled = true; btn.style.opacity = "0.5";
+  runSlot(mgrParts, prizeName, async (winner, winIdx) => {
     mgrWinCount++;
-    /* Update Firestore */
-    await updateDoc(doc(db,`giveaways/${mgrId}/participants`,winner.id),{isWinner:true,wonPrize:prizeName,wonAt:new Date()});
-    /* Increment cached counters on the draw document */
-    await updateDoc(doc(db,'giveaways',mgrId),{winCount:increment(1)});
-    mgrParts.splice(winIdx,1);
-
-    /* Prize row UI */
-    const pw=document.getElementById(`mpw_${tierIdx}`);
-    if(pw){pw.className='m-pw';pw.innerHTML=`✅ ${winner.name||winner.fullName||winner.email||'—'}`;}
-
-    /* EmailJS */
-    let emailSent=false;
-    const{ejsService,ejsTemplate,ejsKey,emailSubject,emailBody,drawName,emailsSent=0}=mgrData;
-    if(ejsService&&ejsTemplate&&ejsKey&&winner.email){
-      try{
+    await updateDoc(doc(db, "giveaways/"+mgrId+"/participants", winner.id), {isWinner:true, wonPrize:prizeName, wonAt:new Date()});
+    await updateDoc(doc(db, "giveaways", mgrId), {winCount: increment(1)});
+    mgrParts.splice(winIdx, 1);
+    const pw = document.getElementById("mpw_"+tierIdx);
+    if (pw) { pw.className = "m-pw"; pw.textContent = winner.name||winner.email||"—"; }
+    let emailSent = false;
+    const {ejsService,ejsTemplate,ejsKey,emailSubject,emailBody,drawName} = mgrData;
+    if (ejsService && ejsTemplate && ejsKey && winner.email) {
+      try {
         emailjs.init(ejsKey);
-        const body=(emailBody||'Merhaba {ad},\n\n🎉 Tebrikler! {cekilis} çekilişinde {odul} kazandınız!\n\nKatılımınız için teşekkür ederiz!\nRaffle Ekibi 🎲')
-          .replace(/{ad}/g,winner.name||winner.fullName||'Kazanan')
-          .replace(/{odul}/g,prizeName)
-          .replace(/{cekilis}/g,(drawName||mgrId).replace(/_/g,' '));
-        await emailjs.send(ejsService,ejsTemplate,{
-          to_email:winner.email,to_name:winner.name||winner.fullName||'Kazanan',
-          subject:emailSubject||'🏆 Tebrikler! Çekilişi Kazandınız!',
-          message:body,prize:prizeName,
-          draw_name:(drawName||mgrId).replace(/_/g,' ')
+        const body = (emailBody||"Merhaba {ad}, tebrikler! {cekilis} cekilisinde {odul} kazandiniz!")
+          .replace(/{ad}/g, winner.name||winner.fullName||"Kazanan")
+          .replace(/{odul}/g, prizeName)
+          .replace(/{cekilis}/g, (drawName||mgrId).replace(/_/g," "));
+        await emailjs.send(ejsService, ejsTemplate, {
+          to_email: winner.email,
+          to_name: winner.name||winner.fullName||"Kazanan",
+          subject: emailSubject||"Tebrikler! Cekilisi Kazandiniz!",
+          message: body, prize: prizeName,
+          draw_name: (drawName||mgrId).replace(/_/g," ")
         });
-        emailSent=true;
-        await updateDoc(doc(db,'giveaways',mgrId),{emailsSent:increment(1)});
-      }catch(err){toast('E-posta gönderilemedi','warn')}
+        emailSent = true;
+        await updateDoc(doc(db,"giveaways",mgrId), {emailsSent: increment(1)});
+      } catch(err) { toast("E-posta gonderilemedi", "warn"); }
     }
-
-    /* Winner card in list */
-    const medals=['🥇','🥈','🥉'];
-    const wc=document.createElement('div');
-    wc.className='winner-card';
-    wc.innerHTML=`
-      <div class="wc-rank">${medals[tierIdx]||'🏆'} ${mgrWinCount}. Kazanan — ${prizeName}</div>
-      <div class="wc-name">${winner.name||winner.fullName||'—'}</div>
-      <div class="wc-email">📧 ${winner.email}</div>
-      ${winner.instagram?`<div class="wc-email">📱 ${winner.instagram}</div>`:''}
-      <span class="wc-prize">${prizeName}</span>
-      ${emailSent?`<div class="wc-sent">✅ Tebrik e-postası gönderildi</div>`:`<div style="margin-top:6px;font-size:12px;color:var(--t3)">⚠️ E-posta gönderilmedi</div>`}`;
-    document.getElementById('mWinnersList').prepend(wc);
-    toast(`🏆 Kazanan: ${winner.name||winner.email}`);
-
-    drawBtn.disabled=false;drawBtn.style.opacity='1';
-    if(mgrWinCount>=Math.max(mgrPrizes.length,1)){drawBtn.disabled=true;drawBtn.style.opacity='0.3';drawBtn.textContent='Tüm Ödüller Verildi ✓';}
+    const medals = ["🥇","🥈","🥉"];
+    const wc = document.createElement("div"); wc.className = "winner-card";
+    wc.innerHTML =
+      '<div class="wc-rank">' + (medals[tierIdx]||"🏆") + " " + mgrWinCount + ". Kazanan — " + prizeName + '</div>' +
+      '<div class="wc-name">' + (winner.name||winner.fullName||"—") + '</div>' +
+      '<div class="wc-email">📧 ' + (winner.email||"") + '</div>' +
+      (winner.instagram ? '<div class="wc-email">📱 ' + winner.instagram + '</div>' : "") +
+      '<span class="wc-prize">' + prizeName + '</span>' +
+      (emailSent ? '<div class="wc-sent">✅ E-posta gonderildi</div>' : '<div style="margin-top:6px;font-size:12px;color:var(--t3)">E-posta gonderilmedi</div>');
+    document.getElementById("mWinnersList").prepend(wc);
+    toast("Kazanan: " + (winner.name||winner.email));
+    btn.disabled = false; btn.style.opacity = "1";
+    if (mgrWinCount >= Math.max(mgrPrizes.length,1)) { btn.disabled = true; btn.style.opacity = "0.3"; btn.textContent = "Tum Oduller Verildi"; }
   });
 });
 
-/* ════════════════════════════
-   PARTICIPANT — realtime count
-════════════════════════════ */
-let ppUnsubscribe=null;
+/* ══════════════════
+   PARTICIPANT
+══════════════════ */
+let ppUnsub = null;
 
-async function initParticipant(){
-  const drawId=`${urlC}_${urlG}`;
-  document.getElementById('ppTitle').innerHTML=`<span>${urlG.replace(/_/g,' ')}</span>`;
-  document.getElementById('ppCreator').textContent=`${urlC.replace(/_/g,' ')} tarafından`;
-
-  const lsKey=`joined_${drawId}`;
-  if(localStorage.getItem(lsKey)){
-    document.getElementById('ppForm').classList.add('hidden');
-    document.getElementById('ppAlready').style.display='block';return;
+async function initParticipant() {
+  const drawId = urlC + "_" + urlG;
+  document.getElementById("ppTitle").innerHTML = '<span>' + urlG.replace(/_/g," ") + '</span>';
+  document.getElementById("ppCreator").textContent = urlC.replace(/_/g," ") + " tarafindan";
+  const lsKey = "joined_" + drawId;
+  if (localStorage.getItem(lsKey)) {
+    document.getElementById("ppForm").classList.add("hidden");
+    document.getElementById("ppAlready").style.display = "block"; return;
   }
-
-  try{
-    const dd=await getDoc(doc(db,'giveaways',drawId));
-    if(dd.exists()){
-      const dw=dd.data();
-      if((dw.prizes||[]).length){
-        const pc=document.getElementById('ppPrizes');pc.classList.remove('hidden');
-        const medals=['🥇','🥈','🥉'],cls=['first','second','third'];
-        pc.innerHTML=dw.prizes.map((p,i)=>`
-          <div class="pp-pc ${cls[i]||''}">
-            <div class="pp-medal">${medals[i]||'🎁'}</div>
-            <div><div class="pp-plabel">${['Birinci Ödül','İkinci Ödül','Üçüncü Ödül'][i]||`${i+1}. Ödül`}</div><div class="pp-pval">${p}</div></div>
-          </div>`).join('');
+  try {
+    const dd = await getDoc(doc(db,"giveaways",drawId));
+    if (dd.exists()) {
+      const dw = dd.data();
+      const medals = ["🥇","🥈","🥉"], cls = ["first","second","third"];
+      if ((dw.prizes||[]).length) {
+        const pc = document.getElementById("ppPrizes"); pc.classList.remove("hidden");
+        pc.innerHTML = dw.prizes.map((p,i) =>
+          '<div class="pp-pc ' + (cls[i]||"") + '"><div class="pp-medal">' + (medals[i]||"🎁") + '</div>' +
+          '<div><div class="pp-plabel">' + (["Birinci Odul","Ikinci Odul","Ucuncu Odul"][i]||((i+1)+". Odul")) + '</div><div class="pp-pval">' + p + '</div></div></div>'
+        ).join("");
       }
-      if(dw.endTime){
-        const el=document.getElementById('ppTime');
-        function upd(){const d=new Date(dw.endTime)-Date.now();if(d<=0){el.textContent='Bitti';return}const h=Math.floor(d/3600000),m=Math.floor(d%3600000/60000);el.textContent=`${h}s ${m}dk`;setTimeout(upd,30000);}upd();
+      if (dw.endTime) {
+        const el = document.getElementById("ppTime");
+        (function upd() { const d=new Date(dw.endTime)-Date.now(); if(d<=0){el.textContent="Bitti";return;} const h=Math.floor(d/3600000),m=Math.floor(d%3600000/60000); el.textContent=h+"s "+m+"dk"; setTimeout(upd,30000); })();
       }
     }
-  }catch(e){}
-
-  /* Realtime participant count */
-  ppUnsubscribe=onSnapshot(collection(db,`giveaways/${drawId}/participants`),snap=>{
-    document.getElementById('ppCount').textContent=snap.size;
+  } catch(e) {}
+  ppUnsub = onSnapshot(collection(db,"giveaways/"+drawId+"/participants"), snap => {
+    document.getElementById("ppCount").textContent = snap.size;
   });
-
-  document.getElementById('ppJoinBtn').addEventListener('click',async()=>{
-    if(localStorage.getItem(lsKey)){
-      document.getElementById('ppForm').classList.add('hidden');
-      document.getElementById('ppAlready').style.display='block';return;
+  document.getElementById("ppJoinBtn").addEventListener("click", async () => {
+    if (localStorage.getItem(lsKey)) {
+      document.getElementById("ppForm").classList.add("hidden");
+      document.getElementById("ppAlready").style.display = "block"; return;
     }
-    const name=document.getElementById('ppName').value.trim();
-    const email=document.getElementById('ppEmail').value.trim().toLowerCase();
-    const instagram=document.getElementById('ppInsta').value.trim();
-    if(!email||!/\S+@\S+\.\S+/.test(email))return toast('Geçerli bir e-posta gir!','err');
-
-    const btn=document.getElementById('ppJoinBtn');
-    btn.innerHTML='<span class="spinner"></span>';btn.disabled=true;
-    try{
-      const drawId2=`${urlC}_${urlG}`;
-      /* Duplicate check by email */
-      const qDup=query(collection(db,`giveaways/${drawId2}/participants`),where('email','==',email));
-      const dup=await getDocs(qDup);
-      if(!dup.empty){localStorage.setItem(lsKey,'1');document.getElementById('ppForm').classList.add('hidden');document.getElementById('ppAlready').style.display='block';return;}
-      await addDoc(collection(db,`giveaways/${drawId2}/participants`),{name,email,instagram,isWinner:false,timestamp:new Date()});
-      /* Increment cached partCount on draw doc */
-      await updateDoc(doc(db,'giveaways',drawId2),{partCount:increment(1)});
-      localStorage.setItem(lsKey,'1');
-      document.getElementById('ppForm').classList.add('hidden');
-      document.getElementById('ppSuccess').style.display='block';
+    const name = document.getElementById("ppName").value.trim();
+    const email = document.getElementById("ppEmail").value.trim().toLowerCase();
+    const instagram = document.getElementById("ppInsta").value.trim();
+    if (!email || !/\S+@\S+\.\S+/.test(email)) { toast("Gecerli bir e-posta gir!", "err"); return; }
+    const btn = document.getElementById("ppJoinBtn");
+    btn.innerHTML = '<span class="spinner"></span>'; btn.disabled = true;
+    try {
+      const qDup = query(collection(db,"giveaways/"+drawId+"/participants"), where("email","==",email));
+      const dup = await getDocs(qDup);
+      if (!dup.empty) {
+        localStorage.setItem(lsKey,"1");
+        document.getElementById("ppForm").classList.add("hidden");
+        document.getElementById("ppAlready").style.display = "block"; return;
+      }
+      await addDoc(collection(db,"giveaways/"+drawId+"/participants"), {name,email,instagram,isWinner:false,timestamp:new Date()});
+      await updateDoc(doc(db,"giveaways",drawId), {partCount: increment(1)});
+      localStorage.setItem(lsKey,"1");
+      document.getElementById("ppForm").classList.add("hidden");
+      document.getElementById("ppSuccess").style.display = "block";
       boom();
-    }catch(e){toast('Hata: '+e.message,'err');btn.innerHTML='🚀 Hemen Katıl';btn.disabled=false;}
+    } catch(e) { toast("Hata: "+e.message,"err"); btn.innerHTML="Hemen Katil"; btn.disabled=false; }
   });
 }
+
+/* Initial load */
+if (!isPart) loadDiscover();
 </script>
 </body>
 </html>
