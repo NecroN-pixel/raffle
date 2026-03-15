@@ -755,6 +755,7 @@ const isPart=!!(urlC&&urlG),isProfile=!!urlP;
 
 /* ROUTER */
 function showPage(id){document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll(".nav-tab").forEach(t=>t.classList.toggle("active",t.dataset.page===id));if(id==="pageDiscover")loadDiscover();if(id==="pageDashboard")loadDashboard();if(id==="pageCreate")updateCreatePage();}
+window.showPage=showPage;
 document.querySelectorAll(".nav-tab").forEach(t=>t.addEventListener("click",()=>showPage(t.dataset.page)));
 
 /* AUTH */
@@ -795,7 +796,13 @@ document.getElementById("loginBtn").addEventListener("click",function(){
 function fmtCd(endTime){const d=new Date(endTime)-Date.now();if(d<=0)return null;const days=Math.floor(d/86400000),h=Math.floor(d/3600000)%24,m=Math.floor(d%3600000/60000);return days>0?days+"g "+h+"s":h+"s "+m+"dk";}
 
 /* CARD HTML HELPERS */
-function buildCardImg(dw,h){return dw.imageUrl?`<img src="${dw.imageUrl}" style="width:100%;height:${h}px;object-fit:cover;border-radius:0">`:`<div style="width:100%;height:${h}px;display:flex;align-items:center;justify-content:center;font-size:${h>80?36:24}px;background:linear-gradient(135deg,rgba(255,45,85,0.1),rgba(191,90,242,0.08));border-bottom:1px solid var(--b1)">🎁</div>`;}
+function buildCardImg(dw,h){
+  try{
+    if(dw&&dw.imageUrl&&dw.imageUrl.startsWith("http"))
+      return '<img src="'+dw.imageUrl+'" style="width:100%;height:'+h+'px;object-fit:cover;display:block" onerror="this.style.display='none'">';
+  }catch(e){}
+  return '<div style="width:100%;height:'+h+'px;display:flex;align-items:center;justify-content:center;font-size:'+(h>80?36:24)+'px;background:linear-gradient(135deg,rgba(255,45,85,0.1),rgba(191,90,242,0.08));border-bottom:1px solid var(--b1)">🎁</div>';
+}
 
 /* DISCOVER */
 let allDraws=[],discFilter="all";
@@ -808,9 +815,14 @@ async function loadDiscover(){
     const live=allDraws.filter(d=>!d.isPrivate&&!(d.endTime&&new Date(d.endTime)<new Date())).length;
     document.getElementById("dStatDraws").textContent=live;document.getElementById("dStatParts").textContent=tp;document.getElementById("dStatWins").textContent=tw;
     renderDiscover();
-  }catch(e){toast("Yuklenemedi","err");}
+  }catch(e){
+    console.error("Firestore error:",e);
+    const grid=document.getElementById("discoverGrid");
+    grid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">⚠️</div><div class="empty-text" style="color:var(--red)">Baglanti hatasi:<br>'+e.message+'<br><br><small style="color:var(--t3)">Firebase Console > Firestore > Rules kontrol et</small></div></div>';
+  }
 }
 function renderDiscover(){
+  try{
   const grid=document.getElementById("discoverGrid");grid.innerHTML="";
   const medals=["🥇","🥈","🥉"];
   const list=allDraws.filter(d=>{
@@ -844,13 +856,16 @@ function renderDiscover(){
       '</div>';
     grid.appendChild(el);
   });
+  }catch(e){console.error('renderDiscover error:',e);}
 }
 document.querySelectorAll(".chip").forEach(c=>c.addEventListener("click",()=>{document.querySelectorAll(".chip").forEach(x=>x.classList.remove("active"));c.classList.add("active");discFilter=c.dataset.filter;renderDiscover();}));
 setInterval(()=>{if(document.getElementById("pageDiscover").classList.contains("active"))loadDiscover();},60000);
 
 /* PROFILE */
 function openProfile(creatorName){window.open(location.origin+location.pathname+"?p="+creatorName,"_blank");}
+window.openProfile=openProfile;
 function openMyProfile(){if(me){const safeC=(me.displayName||me.email||"user").replace(/\s+/g,"_").replace(/[^\w]/g,"").toLowerCase();window.open(location.origin+location.pathname+"?p="+safeC,"_blank");}}
+window.openMyProfile=openMyProfile;
 async function loadProfile(creatorName){
   const pa=document.getElementById("profileAvatar"),pn=document.getElementById("profileName"),ps=document.getElementById("profileSub");
   const name=creatorName.replace(/_/g," ");
