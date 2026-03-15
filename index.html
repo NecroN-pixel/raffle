@@ -38,7 +38,40 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-he
 .nav-right{margin-left:auto;display:flex;align-items:center;gap:8px}
 .nav-user{font-size:13px;color:var(--t2);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .nav-avatar{width:32px;height:32px;border-radius:var(--r8);background:var(--fire);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;font-family:'Unbounded',sans-serif}
-@media(max-width:540px){.nav-tab span{display:none}.nav-user{display:none}}
+@media(max-width:540px){
+  .nav-tab span{display:none}
+  .nav-user{display:none}
+  .nav-logo{font-size:15px;margin-right:12px}
+  .nav-tab{padding:6px 10px;font-size:12px}
+}
+@media(max-width:480px){
+  .disc-hero{padding:40px 16px 28px}
+  .dh-title{font-size:22px}
+  .dh-sub{font-size:14px;margin-bottom:20px}
+  .dh-stats{gap:20px}
+  .dhs-num{font-size:20px}
+  .disc-body{padding:20px 14px}
+  .disc-grid{grid-template-columns:1fr}
+  .dash-wrap{padding:20px 14px}
+  .dash-kpi{grid-template-columns:1fr 1fr;gap:10px}
+  .kpi-card{padding:14px}
+  .kpi-num{font-size:22px}
+  .dash-grid{grid-template-columns:1fr}
+  .create-wrap{padding:24px 14px}
+  .modal{padding:20px;border-radius:16px}
+  .m-stats{gap:8px}
+  .m-stat{padding:12px 8px}
+  .m-stat-num{font-size:20px}
+  .inp-row{flex-direction:column;gap:0}
+  .slot-box{padding:28px 20px;border-radius:20px}
+  .slot-winner-name{font-size:20px}
+  .pp-hero{padding:40px 16px 28px}
+  .pp-body{padding:20px 14px}
+  .pp-form{padding:20px}
+  .pp-trust{gap:8px}
+  .pp-tnum{font-size:18px}
+  .mdc-footer .btn{font-size:12px;padding:8px}
+}
 
 .page{display:none;position:relative;z-index:1;padding-top:60px;min-height:100vh}.page.active{display:block}
 
@@ -336,7 +369,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-he
     <!-- Actual create form (shown when logged in) -->
     <div id="createForm" class="hidden">
       <div class="create-title">Yeni Cekilis</div>
-      <div class="create-sub">Odulleri, aciklamayi ve bitis tarihini belirle.</div>
+      <div class="create-sub">Odulleri, aciklamayi ve bitis tarihini belirle. <span id="drawCountInfo" style="color:var(--t3)"></span></div>
       <div class="fsec">
         <div class="fsec-title">Temel Bilgiler</div>
         <div class="field"><label class="lbl">Cekilis Adi</label><input class="inp" id="cDrawName" placeholder="iPhone 16 Cekilisi"></div>
@@ -371,10 +404,10 @@ Raffle Ekibi</textarea>
           emailjs.com ucretsiz hesap ac, Service + Template + Public Key gir.
         </div>
         <div class="inp-row">
-          <div class="field" style="flex:1"><label class="lbl">Service ID</label><input class="inp" id="cEjsService" placeholder="service_xxx"></div>
-          <div class="field" style="flex:1"><label class="lbl">Template ID</label><input class="inp" id="cEjsTemplate" placeholder="template_xxx"></div>
+          <div class="field" style="flex:1"><label class="lbl">Service ID</label><input class="inp" id="cEjsService" value="service_m8pm97j"></div>
+          <div class="field" style="flex:1"><label class="lbl">Template ID</label><input class="inp" id="cEjsTemplate" value="template_twf23ok"></div>
         </div>
-        <div class="field"><label class="lbl">Public Key</label><input class="inp" id="cEjsKey" placeholder="xxxxxxxxxxxx"></div>
+        <div class="field"><label class="lbl">Public Key</label><input class="inp" id="cEjsKey" value="a7hcviMd81teC1UcX"></div>
       </div>
       <button class="btn btn-fire btn-block" style="font-size:16px;padding:16px" id="createBtn">Cekilisi Yayinla</button>
       <div id="cLinkBox" class="hidden" style="margin-top:16px">
@@ -404,7 +437,7 @@ Raffle Ekibi</textarea>
     <div class="gc pp-form" id="ppForm">
       <div class="pp-form-title">Cekilise Katil</div>
       <div class="pp-form-sub">Sadece e-postani gir. Kazanirsan otomatik bildirim alirsin.</div>
-      <div class="field"><label class="lbl">Ad Soyad</label><input class="inp" id="ppName" placeholder="Ahmet Yilmaz"></div>
+      <div class="field"><label class="lbl">Ad Soyad (Zorunlu)</label><input class="inp" id="ppName" placeholder="Ahmet Yilmaz"></div>
       <div class="field"><label class="lbl">E-posta (Zorunlu)</label><input class="inp" type="email" id="ppEmail" placeholder="ahmet@gmail.com"></div>
       <div class="field"><label class="lbl">Instagram (Istege Bagli)</label><input class="inp" id="ppInsta" placeholder="@kullanici"></div>
       <button class="btn btn-fire btn-block" style="padding:14px;font-size:15px;margin-top:4px" id="ppJoinBtn">Hemen Katil</button>
@@ -591,13 +624,24 @@ function updateNavUser() {
   }
 }
 
-function updateCreatePage() {
+async function updateCreatePage() {
   const lr = document.getElementById("loginRequired");
   const cf = document.getElementById("createForm");
   if (!lr || !cf) return;
   if (me) {
     lr.classList.add("hidden");
     cf.classList.remove("hidden");
+    // Show draw count
+    try {
+      const q = query(collection(db,"giveaways"),where("creatorId","==",me.uid));
+      const s = await getDocs(q);
+      const info = document.getElementById("drawCountInfo");
+      if (info) {
+        const remaining = 10 - s.size;
+        info.textContent = s.size + "/10 cekilis kullanildi" + (remaining===0?" — Limit doldu!":"");
+        info.style.color = remaining === 0 ? "var(--red)" : remaining <= 2 ? "var(--ora)" : "var(--t3)";
+      }
+    } catch(e) {}
   } else {
     lr.classList.remove("hidden");
     cf.classList.add("hidden");
@@ -791,6 +835,14 @@ document.getElementById("createBtn").addEventListener("click", async () => {
   const btn = document.getElementById("createBtn");
   btn.innerHTML = '<span class="spinner"></span> Olusturuluyor...'; btn.disabled = true;
   try {
+    // Check max 10 draws limit
+    const existingQ = query(collection(db, "giveaways"), where("creatorId","==",me.uid));
+    const existingSnap = await getDocs(existingQ);
+    if (existingSnap.size >= 10) {
+      toast("En fazla 10 cekilis acabilirsiniz! Once bir tanesini silin.", "err");
+      btn.innerHTML = "Cekilisi Yayinla"; btn.disabled = false;
+      return;
+    }
     await setDoc(doc(db, "giveaways", drawId), {
       creatorId: me.uid, creatorName: safeC, drawName: safeG,
       prizes, endTime, desc, emailSubject, emailBody,
@@ -935,7 +987,9 @@ document.getElementById("drawBtn").addEventListener("click", async () => {
           to_name: winner.name||winner.fullName||"Kazanan",
           subject: emailSubject||"Tebrikler! Cekilisi Kazandiniz!",
           message: body, prize: prizeName,
-          draw_name: (drawName||mgrId).replace(/_/g," ")
+          draw_name: (drawName||mgrId).replace(/_/g," "),
+          organizer_email: me ? (me.email||"") : "",
+          organizer_name: me ? (me.displayName||me.email||"Organizator") : "Organizator"
         });
         emailSent = true;
         await updateDoc(doc(db,"giveaways",mgrId), {emailsSent: increment(1)});
@@ -1000,7 +1054,10 @@ async function initParticipant() {
     const name = document.getElementById("ppName").value.trim();
     const email = document.getElementById("ppEmail").value.trim().toLowerCase();
     const instagram = document.getElementById("ppInsta").value.trim();
-    if (!email || !/\S+@\S+\.\S+/.test(email)) { toast("Gecerli bir e-posta gir!", "err"); return; }
+    if (!name) { toast("Ad Soyad zorunlu!", "err"); return; }
+    if (name.trim().split(/\s+/).length < 2) { toast("Lutfen ad ve soyadinizi girin!", "err"); return; }
+    if (!email) { toast("E-posta zorunlu!", "err"); return; }
+    if (!email.endsWith("@gmail.com")) { toast("Sadece @gmail.com adresleri kabul edilir!", "err"); return; }
     const btn = document.getElementById("ppJoinBtn");
     btn.innerHTML = '<span class="spinner"></span>'; btn.disabled = true;
     try {
