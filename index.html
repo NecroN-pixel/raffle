@@ -327,7 +327,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--t1);min-he
     <div class="dash-header">
       <div><div class="dash-greeting"><span class="wave">👋</span> Merhaba, <span id="dashName">—</span></div></div>
       <div style="display:flex;gap:8px">
-        <button class="btn btn-ghost btn-sm" id="cleanDbBtn" style="color:var(--ora);border-color:rgba(255,149,0,0.2)">🧹 Temizle</button>
+        <button class="btn btn-ghost btn-sm hidden" id="cleanDbBtn" style="color:var(--ora);border-color:rgba(255,149,0,0.2)">🧹 Temizle</button>
         <button class="btn btn-ghost btn-sm" id="dashRefreshBtn">🔄</button>
       </div>
     </div>
@@ -598,6 +598,10 @@ onAuthStateChanged(auth, user => {
       '<button class="btn btn-ghost btn-sm" id="logoutBtn">Cikis</button>';
     document.getElementById("logoutBtn").addEventListener("click",()=>signOut(auth));
     if(document.getElementById("dashName")) document.getElementById("dashName").textContent=name.split(" ")[0];
+    // Show clean button only for admin
+    const cleanBtn=document.getElementById("cleanDbBtn");
+    if(cleanBtn && me.email==="necron.offical@gmail.com") cleanBtn.classList.remove("hidden");
+    else if(cleanBtn) cleanBtn.classList.add("hidden");
   } else {
     nr.innerHTML="";
   }
