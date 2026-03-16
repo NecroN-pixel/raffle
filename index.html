@@ -1917,10 +1917,19 @@ async function initPP(){
   // Support button
   const suppBtn = document.getElementById("supportBtn");
   if(suppBtn){
-    suppBtn.addEventListener("click",()=>{
-      const orgEmail = window._ppOrgEmailFinal || "";
-      const dName = (window._ppDrawName||drawId).replace(/_/g," ");
-      const pEmail = document.getElementById("ppE")?.value || "";
+    suppBtn.addEventListener("click",async()=>{
+      let orgEmail = window._ppOrgEmailFinal || "";
+      // If not cached, fetch from Firestore
+      if(!orgEmail){
+        try{
+          const dd=await getDoc(doc(db,"giveaways",drawId));
+          if(dd.exists()) orgEmail=dd.data().organizerEmail||"";
+          window._ppOrgEmailFinal=orgEmail;
+        }catch(e){}
+      }
+      const dName=(window._ppDrawName||drawId).replace(/_/g," ");
+      // Get participant email - from Firestore if possible, else form
+      let pEmail=window._ppJoinedEmail||document.getElementById("ppE")?.value||"";
       openSupport(dName, orgEmail, pEmail);
     });
   }
@@ -1970,6 +1979,7 @@ async function initPP(){
       await addDoc(collection(db,"giveaways/"+drawId+"/participants"),{name,email,instagram:insta,isWinner:false,timestamp:new Date()});
       await updateDoc(doc(db,"giveaways",drawId),{partCount:increment(1)});
       localStorage.setItem(lsKey,"1");
+      window._ppJoinedEmail=email; // store for support
       document.getElementById("ppFormCard").classList.add("hidden");
       document.getElementById("ppOk").style.display="block";
       const shareUrl=location.href;
@@ -2033,12 +2043,11 @@ function openSupport(drawName, creatorEmail, participantEmail){
           orgEmail=inp.trim();
         }
       }
-      // Open Gmail with pre-filled content
-      const gmailUrl = "https://mail.google.com/mail/?view=cm&fs=1"+
-        "&to="+encodeURIComponent(orgEmail)+
-        "&su="+encodeURIComponent(issue.subject)+
+      // Open mail app (Gmail on Android/iOS) with pre-filled content
+      const mailtoUrl = "mailto:"+encodeURIComponent(orgEmail)+
+        "?subject="+encodeURIComponent(issue.subject)+
         "&body="+encodeURIComponent(issue.body);
-      window.open(gmailUrl,"_blank");
+      window.location.href = mailtoUrl;
       document.getElementById("supportOv").classList.remove("on");
     });
 
